@@ -1,0 +1,43 @@
+{% load static %}
+<div class="row" data-aos="fade-up">
+	<table class="table dataframe" id="regressionTable">
+		<thead>
+			<tr>
+				<th>Algorithm</th>
+				<th>Visualisation</th>
+				<th>RMSE</th>
+				<th>MAPE</th>
+				<th>AdjRSQ</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for index, row in result.iterrows %}
+			<tr>
+				<td>{{ row.Algorithm }}</td>
+				<td>{{ row.Visualisation }}</td>
+				<td>{{ row.RMSE|floatformat:6 }}</td>
+				<td>{{ row.MAPE|floatformat:6 }}</td>
+				<td>{{ row.AdjRSQ|floatformat:6 }}</td>
+				<td>{{ row.Action }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+		$('#regressionTable').removeClass('dataframe').removeAttr('border').find('thead tr').css('text-align','').css('font-size','');
+		$("#regressionTable").find("th").each(function(){
+		    if($(this).text()=="RMSE"){
+		        $(this).append('<i class="fa fa-question-circle" style="margin-left:5px" title="A measure of how spread out residuals are, it tells you how concentrated the data is around the line of best fit. Lower values of RMSE indicate better fit. RMSE is calculated by the standard deviation of the residuals."></i>');
+		    }else if($(this).text()=="MAPE"){
+		    	$(this).append('<i class="fa fa-question-circle" style="margin-left:5px" title="A measure of how accurate a forecast system is in percentage, the lower your MAPE value is the better. MAPE is calculated as the average absolute percent error for each time period minus actual values divided by actual values."></i>');
+		    }
+		    else if($(this).text()=="AdjRSQ"){
+		    	$(this).append('<i class="fa fa-question-circle" style="margin-left:5px" title="A measure of the percentage of variation explained by only the independent variables that actually affect the dependent variable. AdjRSQ values range from 0 to 1, the higher the R-squared, the better the model fits your data."></i>');
+		    }
+		});
+		// $(".cTooltips").tooltip();
+	})
+</script>

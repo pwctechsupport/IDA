@@ -1,0 +1,150 @@
+{% extends "layout.html" %}
+{% block content %}
+{% load static %}
+<div class="container">
+    <div class="row" data-aos="fade-up">
+        <h2 style="font-family: Georgia">Start a conversation</h2>
+        <div class="col-md-5 order-1 order-md-2">
+            <div class="row">
+                <div class="col-md-2">
+                    <img src="{% static 'images/Picture1.jpg'%}" class="img-fluid" alt="">
+                </div>
+                <div class="col-md-10">
+                    <div style="font-weight: bold;font-size: 1.375rem;">Subianto</div>
+                    <div style="font-size: 1rem;">Chief Digital and Technology Officer, PwC Indonesia</div>
+                    <div style="font-size: 1rem;">Tel: +62 21 509 92901</div>
+                    <div style="font-size: 1rem;">
+                        <a href="https://www.linkedin.com/in/subianto-subianto-1bb619aa" target="_blank"><i class="bx bxl-linkedin-square" style="vertical-align: bottom;font-size: 20pt;"></i></a>
+                        <!-- <a style="color:black;" href="/FirstApp/chat/"><u>Email</u></a> -->
+                        <!-- <a href="mailto:test@test.test?body=The message's first paragraph.%0A%0aSecond paragraph.%0A%0AThird Paragraph.%0A%0ALink goes here">Link text goes here</a> -->
+                        <a style="color:black" href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&su=PwC Intelligent Data Assistant&to=subianto.subianto@pwc.com" target="_blank"><u>Email</u></a>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 10px;">
+                <div class="col-md-2">
+                    <img src="{% static 'images/Picture2.png'%}" class="img-fluid" alt="">
+                </div>
+                <div class="col-md-10">
+                    <div style="font-weight: bold;font-size: 1.375rem;">Deddy Taslim</div>
+                    <div style="font-size: 1rem;">Director, PwC Indonesia</div>
+                    <div style="font-size: 1rem;">Tel: +62 21 509 92901</div>
+                    <div style="font-size: 1rem;">
+                        <a href="https://www.linkedin.com/in/dtaslim" target="_blank"><i class="bx bxl-linkedin-square" style="vertical-align: bottom;font-size: 20pt;"></i></a>
+                        <a style="color:black" href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&su=PwC Intelligent Data Assistant&to=deddy.taslim@pwc.com" target="_blank"><u>Email</u></a>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 10px;">
+                <div class="col-md-2">
+                    <img src="{% static 'images/ponco.jpeg'%}" class="img-fluid" alt="">
+                </div>
+                <div class="col-md-10">
+                    <div style="font-weight: bold;font-size: 1.375rem;">Ponco Widagdo</div>
+                    <div style="font-size: 1rem;">Director, PwC Indonesia</div>
+                    <div style="font-size: 1rem;">Tel: +62 21 509 92901</div>
+                    <div style="font-size: 1rem;">
+                        <a href="https://www.linkedin.com/in/ponco-widagdo-52217825" target="_blank"><i class="bx bxl-linkedin-square" style="vertical-align: bottom;font-size: 20pt;"></i></a>
+                        <a style="color:black" href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&su=PwC Intelligent Data Assistant&to=ponco.widagdo@pwc.com" target="_blank"><u>Email</u></a>
+                    </div>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 10px;font-size: 1.375rem;">
+                <div class="col-md-2">
+                    <img src="{% static 'images/kevin_gian.jpeg'%}" class="img-fluid" alt="">
+                </div>
+                <div class="col-md-10">
+                    <div style="font-weight: bold;">Kevin Gian</div>
+                    <div style="font-size: 1rem;">Manager, PwC Indonesia</div>
+                    <div style="font-size: 1rem;">Tel: +62 21 509 92901</div>
+                    <div style="font-size: 1rem;">
+                        <a href="https://www.linkedin.com/in/kevgian" target="_blank"><i class="bx bxl-linkedin-square" style="vertical-align: bottom;font-size: 20pt;"></i></a>
+                        <a style="color:black" href="https://mail.google.com/mail/?view=cm&fs=1&tf=1&su=PwC Intelligent Data Assistant&to=kevin.gian@pwc.com" target="_blank"><u>Email</u></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-7 order-2 order-md-1">
+            
+            <hr>
+            <div class="row">
+                <!-- <form onSubmit="return submitContact()" method="post" role="form" class="php-email-form"> -->
+                <form action="https://accounts.google.com/ServiceLogin" method="get" role="form" onSubmit="submitContact()" id="formContact"target="_blank">
+                    <input type="hidden" name="service" value="mail">
+                    <input type="hidden" name="passive" value="true">
+                    <input type="hidden" name="continue" id="continue" value="">
+                    <p>Required fields are marked with an asterisk(*)</p>
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            Name<label style='color: red'>*</label>
+                        </div>
+                        <div class="col-md-6 form-group mt-3 mt-md-0">
+                            Job Title<label style='color: red'>*</label>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:0;">
+                        <div class="col-md-6 form-group">
+                            <input type="text" class="form-control" id="name" required>
+                        </div>
+                        <div class="col-md-6 form-group mt-3 mt-md-0">
+                            <input type="text" class="form-control" id="jobtitle" required>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:20px;">
+                        <div class="col-md-6 form-group">
+                            Company/Organization<label style='color: red'>*</label>
+                        </div>
+                        <div class="col-md-6 form-group mt-3 mt-md-0">
+                            Business e-mail<label style='color: red'>*</label>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:0;">
+                        <div class="col-md-6 form-group">
+                            <input type="text" class="form-control" id="company" required>
+                        </div>
+                        <div class="col-md-6 form-group mt-3 mt-md-0">
+                            <input type="email" class="form-control" name="Email" id="email" required>
+                        </div>
+                    </div>
+                    
+                    </br>
+                    <p style='font-size: 9pt !important;'>By submitting your email address, you acknowledge that you have read the <a href="https://www.pwc.com/id/en/services/reimagine-digital/technology-solutions.html" target="_blank" style="color: black;"><u>Privacy Statement</u></a> that you consent to our processing data in accordance with the Privacy Statement (including international transfers). If you change your mind at any time about wishing to receive the information from us, you can send us an email message using the Contact Us page.</label>
+                    <!-- <div class="my-3">
+                        <div class="loading">Loading</div>
+                            <div class="error-message"></div>
+                        <div class="sent-message">Your message has been sent. Thank you!</div>
+                    </div> -->
+                    <div><input type="submit" value="Submit" class="btn btn-Action" id="btnSubmitContact" style="background-color: #E0301E; border-color: #E0301E"><!-- <button class="btn btn-Action" id="btnSubmitContact" type="submit">Submit</button> --></div>
+                </form>
+
+            </div>
+
+        </div>
+    </div>
+    <!-- <hr data-aos="fade-up"> -->
+
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".navbar ul li a").removeClass();
+        $("#navContact").addClass('active');
+        $("#titlePage").text("Explore AI for your business").css("line-height", "1").css("font-family", "Georgia");
+        $("#subTitlePage").text('Connect with our expert and discover the AI').append('<br>').append('potentials for your business');
+        document.title = 'PwC Intelligent Data Assistant Contact Us';
+    });
+
+    function submitContact() {
+        var subject = encodeURIComponent("PwC Intelligent Data Assistant")
+        var body = encodeURIComponent(`Dear PwC,
+
+I am interested in using Intelligent Data Assistant for my business, are you open for further conversation?
+
+${$("#name").val()}
+${$("#jobtitle").val()}
+${$("#company").val()}`)
+
+        $("#continue").val(`https://mail.google.com/mail/u/${$("#email").val()}/?view=cm&fs=1&to=subianto.subianto@pwc.com;deddy.taslim@pwc.com;ponco.widagdo@pwc.com;kevin.gian@pwc.com&su=${subject}&body=${body}`)
+    }
+</script>
+{% endblock %}

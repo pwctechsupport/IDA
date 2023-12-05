@@ -1,0 +1,71 @@
+{% load static %}
+<div class="container">
+	<div class="row" data-aos="fade-up">
+		<h4>{{ Algo }}</h4>
+		<div class="row" style="margin-right:auto;margin-left:auto;width:50%">
+			<img src="data:image/png;base64, {{add}}">
+		</div>
+		<div class="row">
+			<table id="regressionPopUpTable" class='table'>
+				<thead>
+					<tr>
+						{% for index, row in accuracyColumn.iterrows %}
+							<th>{{ row.column_name }}</th>
+						{% endfor %}
+					</tr>
+				</thead>
+				<tbody>
+					{% for index, row in accuracy.iterrows %}
+					<tr>
+						{% for i in row %}
+							<td>{{ i }}</td>
+						{% endfor %}
+					</tr>
+					{% endfor %}
+
+				</tbody>
+			</table>
+		</div>
+		<!-- <h4><br>Accuracy Description</h4>
+		<p><b>Root Mean Square Error (RMSE):</b> a measure of how spread out residuals are, it tells you how concentrated the data is around the line of best fit. Lower values of RMSE indicate better fit. RMSE is calculated by the standard deviation of the residuals.<br></p>
+		<p><b>Mean Absolute Percentage Error (MAPE):</b> a measure of how accurate a forecast system is in percentage, the lower your MAPE value is the better. MAPE is calculated as the average absolute percent error for each time period minus actual values divided by actual values.<br></p>
+		<p><b>Adjusted R<sup>2</sup> (AdjRSQ):</b> a measure of the percentage of variation explained by only the independent variables that actually affect the dependent variable. AdjRSQ values range from 0 to 1, the higher the R-squared, the better the model fits your data.<br><br><br></p> -->
+		<div class="row">
+			<table class='table'>
+				<thead>
+					<tr>
+						{% for index, row in resultColumn.iterrows %}
+							<th>{{ row.column_name }}</th>
+						{% endfor %}
+					</tr>
+				</thead>
+				<tbody>
+					{% for index, row in result.iterrows %}
+					<tr>
+						{% for i in row %}
+							<td>{{ i }}</td>
+						{% endfor %}
+					</tr>
+					{% endfor %}
+
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+		$('#regressionPopUpTable').removeClass('dataframe').removeAttr('border').find('thead tr').css('text-align','');
+		$("#regressionPopUpTable").find("th").each(function(){
+		    if($(this).text()=="RMSE"){
+		        $(this).append('<i class="fa fa-question-circle" style="margin-left:5px" title="A measure of how spread out residuals are, it tells you how concentrated the data is around the line of best fit. Lower values of RMSE indicate better fit. RMSE is calculated by the standard deviation of the residuals."></i>');
+		    }else if($(this).text()=="MAPE"){
+		    	$(this).append('<i class="fa fa-question-circle" style="margin-left:5px" title="A measure of how accurate a forecast system is in percentage, the lower your MAPE value is the better. MAPE is calculated as the average absolute percent error for each time period minus actual values divided by actual values."></i>');
+		    }
+		    else if($(this).text()=="AdjRSQ"){
+		    	$(this).append('<i class="fa fa-question-circle" style="margin-left:5px" title="A measure of the percentage of variation explained by only the independent variables that actually affect the dependent variable. AdjRSQ values range from 0 to 1, the higher the R-squared, the better the model fits your data."></i>');
+		    }
+		});
+		$(".cTooltips").tooltip();
+	})
+</script>

@@ -1,0 +1,267 @@
+{% extends "layout.html" %}
+{% block content %}
+{% load static %}
+<div class="container">
+    <div class="row" data-aos="fade-up" style="margin-bottom: 50px;">
+        <div class="col-md-6">
+            <img src="{% static 'images/Intranet.People.Illustration.Animated.V01.gif'%}" class="img-fluid" alt="">
+        </div>
+        <div class="col-md-6 pt-4">
+            <h3>Artificial Intelligence Everywhere</h3>
+            <!-- <p class="fst-italic">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+            magna aliqua.
+            </p> -->
+            <p>AI isn’t just a new set of tools. It’s the new world. From automation to augmentation and beyond, AI is already starting to change everything. AI is automating tasks that require human cognition, such as fraud detection and maintenance schedules for aircrafts, cars and other physical assets. It’s augmenting human decisions on everything from capital project oversight to customer retention and go-to-market strategies for new products.</p>
+            <p>Researchers and entrepreneurs around the world are striving for autonomous AI that won’t need human intervention to make even highly complex decisions. That means new business models everywhere, whether financial services, healthcare, energy and mining, industrial products, or media and entertainment.</p>
+            <p>At PwC, as with our new global strategy The New Equation, we see a future that is human-led and tech-powered. For us, people and technology work hand in hand. We believe that AI will have the greatest impact when everyone can access it, and when it’s built with everyone’s benefit in mind. Hence we developed the intelligent data assistant, that will help you and your business explore, understand, and realise the benefit from implementing AI.</p>
+           <!--  <p style="background-color: yellow;">This tool will automatically get you the prediction, classification, clustering, and visualisation based on your data. The result will help you to get more understanding of your data.</p> -->
+        </div>
+    </div>
+    <hr data-aos="fade-up">
+    <div class="row" data-aos="fade-up" style="margin-top: 50px; margin-bottom: 30px">
+        <div class="col-md-2 order-1 order-md-2">
+            {% if username %}
+                <a id='navLogin2' href="{%url 'Explore:chat'%}"><img src="{% static 'images/Arrow Increase.black.tile.png'%}" class="img-fluid" alt=""></a>
+            {% else %}
+                <!-- <a href="/FirstApp/chat/"><img src="{% static 'images/Arrow Increase.black.tile.png'%}" class="img-fluid" alt=""></a> -->
+                <a id='navLogin2' href="{%url 'Home:login'%}" ><img src="{% static 'images/Arrow Increase.black.tile.png'%}" class="img-fluid" alt=""></a>
+            {% endif %}
+            
+        </div>
+        <div class="col-md-8 pt-2 order-2 order-md-1">
+            <h2>Ready to start exploring AI for your business?</h2>
+        </div>
+    </div>
+    <hr data-aos="fade-up">
+
+</div>
+<div class="modal fade" id="LoginModal2" role="dialog" aria-labelledby="LoginModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-body">
+
+            </div>
+            <!-- <div class="modal-footer">
+                <input type="submit" value="Sign In" class="btn btn-Action" id="btnSubmitContact" style="margin-top:20px;">
+            </div> -->
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    window.onload = function() {
+        if(window.location.href=="http://127.0.0.1:8000/Explore/chat/" || window.location.href=="https://py-django-postgre.herokuapp.com/Explore/chat/"){
+            var username = '{{username}}';
+            var firstname = '{{firstname}}';
+            console.log(firstname)
+            if (username==""){
+                $.ajax({
+                    type: "GET",
+                    url: "/Home/login/",
+                    success: function (data) {
+                        $('#LoginModal2').find('.modal-body').empty();
+                        $('#LoginModal2').find('.modal-body').html(data);
+                        $('#LoginModal2').modal('show');
+                    }
+                });
+                $('#btnSubmitContact').off().on('click',function(){
+                    $.ajax({
+                        type: "POST",
+                        url: "/Home/doLogin/",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                        data: JSON.stringify({
+                            username: $('#username').val(),
+                            password: $('#password').val()
+                        }),
+                        success: function (data) {
+                            if(data.message=="success"){
+                                $('#ToSModal').modal('show');
+                                $('#accepttos').click(function(){
+                                    window.location.href = "/Explore/chat";
+                                }); 
+                            }else{
+                                swal({
+                                        title: "", 
+                                        text: "Invalid Username or Password", 
+                                        type: "error"
+                                    },
+                                    function(){ 
+                                        location.reload();
+                                    }
+                                );              
+                            }
+                        }
+                    });
+                    return false;
+                });
+            }
+        };
+        if(window.location.href=="http://127.0.0.1:8000/Home/copyright/" || window.location.href=="https://py-django-postgre.herokuapp.com/Home/copyright/"){
+            var username = '{{username}}';
+            var firstname = '{{firstname}}';
+            console.log(firstname)
+            if (username==""){
+                $.ajax({
+                    type: "GET",
+                    url: "/Home/login/",
+                    success: function (data) {
+                        $('#LoginModal2').find('.modal-body').empty();
+                        $('#LoginModal2').find('.modal-body').html(data);
+                        $('#LoginModal2').modal('show');
+                    }
+                });
+                $('#btnSubmitContact').off().on('click',function(){
+                    $.ajax({
+                        type: "POST",
+                        url: "/Home/doLogin/",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                        data: JSON.stringify({
+                            username: $('#username').val(),
+                            password: $('#password').val()
+                        }),
+                        success: function (data) {
+                            if(data.message=="success"){
+                                $('#ToSModal').modal('show');
+                                $('#accepttos').click(function(){
+                                    window.location.href = "/Home/copyright/";
+                                }); 
+                            }else{
+                                swal({
+                                        title: "", 
+                                        text: "Invalid Username or Password", 
+                                        type: "error"
+                                    },
+                                    function(){ 
+                                        location.reload();
+                                    }
+                                );              
+                            }
+                        }
+                    });
+                    return false;
+                });
+            }
+        };
+        if(window.location.href=="http://127.0.0.1:8000/Home/changepassword/" || window.location.href=="https://py-django-postgre.herokuapp.com/Home/changepassword/"){
+            var username = '{{username}}';
+            var firstname = '{{firstname}}';
+            console.log(firstname)
+            if (username==""){
+                $.ajax({
+                    type: "GET",
+                    url: "/Home/login/",
+                    success: function (data) {
+                        $('#LoginModal2').find('.modal-body').empty();
+                        $('#LoginModal2').find('.modal-body').html(data);
+                        $('#LoginModal2').modal('show');
+                    }
+                });
+                $('#btnSubmitContact').off().on('click',function(){
+                    $.ajax({
+                        type: "POST",
+                        url: "/Home/doLogin/",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                        data: JSON.stringify({
+                            username: $('#username').val(),
+                            password: $('#password').val()
+                        }),
+                        success: function (data) {
+                            if(data.message=="success"){
+                                $('#ToSModal').modal('show');
+                                $('#accepttos').click(function(){
+                                    window.location.href = "/Home/changepassword/";
+                                }); 
+                            }else{
+                                swal({
+                                        title: "", 
+                                        text: "Invalid Username or Password", 
+                                        type: "error"
+                                    },
+                                    function(){ 
+                                        location.reload();
+                                    }
+                                );              
+                            }
+                        }
+                    });
+                    return false;
+                });
+            }
+        };
+        {% comment %} if(window.location.href=="http://127.0.0.1:8000/Home/doLogout/" || window.location.href=="https://py-django-postgre.herokuapp.com/Home/doLogout/"){
+            var username = '{{username}}';
+            var firstname = '{{firstname}}';
+            console.log(firstname)
+            if (username==""){
+                $.ajax({
+                    type: "GET",
+                    url: "/Home/login/",
+                    success: function (data) {
+                        $('#LoginModal2').find('.modal-body').empty();
+                        $('#LoginModal2').find('.modal-body').html(data);
+                        $('#LoginModal2').modal('show');
+                    }
+                });
+                $('#btnSubmitContact').off().on('click',function(){
+                    $.ajax({
+                        type: "POST",
+                        url: "/Home/doLogin/",
+                        dataType: "json",
+                        contentType: "application/json; charset=utf-8",
+                        headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                        data: JSON.stringify({
+                            username: $('#username').val(),
+                            password: $('#password').val()
+                        }),
+                        success: function (data) {
+                            if(data.message=="success"){
+                                $('#ToSModal').modal('show');
+                                $('#accepttos').click(function(){
+                                    window.location.href = "/Home/doLogout/";
+                                }); 
+                            }else{
+                                swal({
+                                        title: "", 
+                                        text: "Invalid Username or Password", 
+                                        type: "error"
+                                    },
+                                    function(){ 
+                                        location.reload();
+                                    }
+                                );              
+                            }
+                        }
+                    });
+                    return false;
+                });
+            }
+        };                 {% endcomment %}
+    };
+
+    $(document).ready(function () {
+        $(".navbar ul li a").removeClass();
+        $("#navHome").addClass('active');
+        $("#titlePage").text('The rise of AI').css('font-family', 'Georgia');
+        $("#subTitlePage").text('Are you ready for the next game changer?').css('font-family', "'HelveticaNeue'").css('font-weight', 'bold');
+        document.title = 'PwC Intelligent Data Assistant';
+
+        $('#navChat2').off().on('click',function(){
+            $.ajax({
+                type: "GET",
+                url: "/Home/login/",
+                success: function (data) {
+                    $('#LoginModal2').find('.modal-body').empty();
+                    $('#LoginModal2').find('.modal-body').html(data);
+                    $('#LoginModal2').modal('show');
+                }
+            });
+        });
+    })
+</script>
+{% endblock %}

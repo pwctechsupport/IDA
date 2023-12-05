@@ -1,0 +1,80 @@
+{% load static %}
+<div class="modal-header" style="padding: 4px; height: 64px; background: linear-gradient(to right, #f9b600, #0000);">
+	<img src="{% static 'images/PwC_Intelligent Data Assistant_Product Logo-01.png'%}" alt="" class="img-fluid" style="filter: invert(100%)">
+</div>
+<div class="modal-body" style="height: 315px; background-color: #fff; opacity: 0.95">
+	<form id= loginform method="post" role="form" class="php-email-form" style="display: flex; flex-direction: column; align-items: center">
+		<p style="color: #AA2417;font-weight: bold; font-size: 23px; margin-top: 1.5rem">Sign in</p>
+		{% csrf_token %}
+		<div class="row">
+			<div class="form-group" style="width: 275px">
+				<input type="text" name="username" class="form-control" id="username" placeholder="Username" required style="text-align: center; background-color: rgba(136, 126, 126, 0.04); font-weight: bold; border: 2px solid rgba(0, 0, 0, 0.05);">
+			</div>
+		</div>
+		<div class="row" style="margin-top:24px; width: 275px">
+			<div class="form-group mt-3 mt-md-0">
+				<input type="password" class="form-control" name="password" id="password" placeholder="Password" required style="text-align: center; background-color: rgba(136, 126, 126, 0.04); font-weight: bold; border: 2px solid rgba(0, 0, 0, 0.05);">
+			</div>
+		</div>
+		<div class="modal-footer" style="border-top: none; padding: 0">
+			<input type="submit" value="Sign in" class="btn btn-Action" id="btnLogin" style="margin-top:15px; width: 120px; background-color: #E0301E; border-color: #E0301E">
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function () {
+        $("#password").keyup(function(event) {
+            if (event.keyCode === 13) {
+                $("#btnLogin").click();
+            }
+        });
+
+		$('#btnLogin').off().on('click',function(){
+			$.ajax({
+				type: "POST",
+				url: "/Home/doLogin/",
+				dataType: "json",
+				contentType: "application/json; charset=utf-8",
+				headers: {'X-CSRFToken': '{{ csrf_token }}'},
+				data: JSON.stringify({
+					username: $('#username').val(),
+					password: $('#password').val()
+				}),
+				success: function (data) {
+					if(data.message=="success"){
+						$('#ToSModal').modal('show');
+						$('#accepttos').click(function(){
+							window.location.href = "/Explore/chat/";
+						}); 
+					}else if (data.message=="attempt") {
+						swal({
+							title: "", 
+							text: "To many login attempt, please try again later", 
+							type: "error"
+						},
+						function(){ 
+							location.reload();
+						}
+					);     
+					}else{
+						swal({
+								title: "", 
+								text: "Invalid Username or Password", 
+								type: "error"
+							},
+							function(){ 
+								location.reload();
+							}
+						);              
+					}
+				}
+			});
+			return false;
+		});
+
+		$('#closeModal').off().on('click',function(){
+			$(".modal-backdrop").remove();
+		});
+	});
+</script>

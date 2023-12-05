@@ -1,0 +1,71 @@
+('C:\\File William\\Workspace\\IDA\\build\\IDA\\IDA.pkg',
+ {'BINARY': True,
+  'DATA': True,
+  'EXECUTABLE': True,
+  'EXTENSION': True,
+  'PYMODULE': True,
+  'PYSOURCE': True,
+  'PYZ': False,
+  'SPLASH': True},
+ [('PYZ-00.pyz',
+   'C:\\File William\\Workspace\\IDA\\build\\IDA\\PYZ-00.pyz',
+   'PYZ'),
+  ('struct',
+   'C:\\File William\\Workspace\\IDA\\build\\IDA\\localpycs\\struct.pyc',
+   'PYMODULE'),
+  ('pyimod01_archive',
+   'C:\\File '
+   'William\\Workspace\\IDA\\build\\IDA\\localpycs\\pyimod01_archive.pyc',
+   'PYMODULE'),
+  ('pyimod02_importers',
+   'C:\\File '
+   'William\\Workspace\\IDA\\build\\IDA\\localpycs\\pyimod02_importers.pyc',
+   'PYMODULE'),
+  ('pyimod03_ctypes',
+   'C:\\File '
+   'William\\Workspace\\IDA\\build\\IDA\\localpycs\\pyimod03_ctypes.pyc',
+   'PYMODULE'),
+  ('pyimod04_pywin32',
+   'C:\\File '
+   'William\\Workspace\\IDA\\build\\IDA\\localpycs\\pyimod04_pywin32.pyc',
+   'PYMODULE'),
+  ('pyiboot01_bootstrap',
+   'C:\\File '
+   'William\\Workspace\\IDA\\py_venv\\lib\\site-packages\\PyInstaller\\loader\\pyiboot01_bootstrap.py',
+   'PYSOURCE'),
+  ('pyi_rth_multiprocessing',
+   'C:\\File '
+   'William\\Workspace\\IDA\\py_venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_multiprocessing.py',
+   'PYSOURCE'),
+  ('pyi_rth_pkgres',
+   'C:\\File '
+   'William\\Workspace\\IDA\\py_venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_pkgres.py',
+   'PYSOURCE'),
+  ('pyi_rth_inspect',
+   'C:\\File '
+   'William\\Workspace\\IDA\\py_venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_inspect.py',
+   'PYSOURCE'),
+  ('pyi_rth_django',
+   'C:\\File '
+   'William\\Workspace\\IDA\\py_venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_django.py',
+   'PYSOURCE'),
+  ('pyi_rth__tkinter',
+   'C:\\File '
+   'William\\Workspace\\IDA\\py_venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth__tkinter.py',
+   'PYSOURCE'),
+  ('pyi_rth_mplconfig',
+   'C:\\File '
+   'William\\Workspace\\IDA\\py_venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_mplconfig.py',
+   'PYSOURCE'),
+  ('pyi_rth_pkgutil',
+   'C:\\File '
+   'William\\Workspace\\IDA\\py_venv\\Lib\\site-packages\\PyInstaller\\hooks\\rthooks\\pyi_rth_pkgutil.py',
+   'PYSOURCE'),
+  ('manage', 'C:\\File William\\Workspace\\IDA\\manage.py', 'PYSOURCE')],
+ True,
+ False,
+ False,
+ [],
+ None,
+ None,
+ None)

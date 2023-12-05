@@ -1,0 +1,41 @@
+Filter segment by web.config
+=========================================================================
+```
+using System.Configuration;
+MasterSegmentProductList = MasterSegmentProductList.Where(x =>
+	ConfigurationManager.ConnectionStrings[x.Database] != null
+).ToList();
+```
+
+Obfuscate python
+=========================================================================
+
+Best solution right now
+- minify using python-minifier
+- create IDA.exe that will hide .pyd
+
+Tried
+-- pyminifier (not maintained, doesn't support windows for multiple file / recurive search)
+-- pyarmor (hex encoding, require license, seems not django compatible see https://pyarmor.readthedocs.io/en/v8.1.0/how-to/obfuscation.html)
+-- python-minifier (only minimize code, doesn't rename global name)
+-- --key in pyinstaller (deprecated see https://github.com/pyinstaller/pyinstaller/pull/6999)
+
+Future:
+-- Cython (convert to C)
+
+Method
+========================
+pyminify manage.py /Home /Explore /Contact /Python --in-place
+
+first time (will replace .spec file)
+pyinstaller -y -F --name=IDA manage.py
+
+second time
+pyinstaller IDA.spec
+
+
+New Method
+================================
+pyminify manage.py ./Home ./Explore ./Contact ./Python --in-place
+
+pyarmor-7 pack -s IDA.spec -x " --exclude py_venv" gui.py

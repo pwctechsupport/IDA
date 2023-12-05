@@ -1,0 +1,33 @@
+{% load static %}
+<div class="container">
+	<div class="row" data-aos="fade-up">
+		<h4>Mini Batch K-Means Clustering</h4>
+		{% block content %}
+			{% if add %}
+				<img style="margin-right:auto;margin-left:auto;width:50%" src="data:image/png;base64, {{add}}">
+			{% else %}
+				<td>dataset with more than 3 variables cannot be visualized</td>
+			{% endif %}
+		{% endblock content %}
+		<table class="table">
+			<thead>
+				<tr>
+					{% for index, row in columnResultName.iterrows %}
+						<th>{{ row.column_name }}</th>
+					{% endfor %}
+				</tr>
+			</thead>
+			<tbody>
+				{% for index, row in result.iterrows %}
+				<tr>
+					{% for i in row %}
+						<td>{{ i }}</td>
+					{% endfor %}
+				</tr>
+				{% endfor %}
+
+			</tbody>
+		</table>
+		
+	</div>
+</div>

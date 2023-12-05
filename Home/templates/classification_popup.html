@@ -1,0 +1,55 @@
+{% load static %}
+<div class="container">
+	<div class="row" data-aos="fade-up">
+		<h4>{{ Algo }}</h4>
+		<table class="table">
+			<thead>
+				<tr>
+					<th>class</th>
+					<th>precision<i class="fa fa-question-circle" style="margin-left:5px" title="A measure of how many of the positive predictions made are correct. The value lies between 0 and 1, with one is a perfect precision score. Precision is important when we want false positive should be as low as possible, for example a detection of spam mail."></i></th>
+					<th>recall<i class="fa fa-question-circle" style="margin-left:5px" title="A measure of how many of the positive cases the classifier correctly predicted, over all the positive cases in the data or true positive rate (TPR). The value lies between 0 and 1, with one is a perfect recall score. Recall is important when we want False-Negative to be as low as possible, for example a fraud detection or medical detection."></i></th>
+					<th>f1_score<i class="fa fa-question-circle" style="margin-left:5px" title="A harmonic mean of precision and recall that takes both false positive and false negatives into account and performs well on an imbalanced dataset. The value lies between 0 and 1, with one is a perfect F1 score."></i></th>
+					<th>support<i class="fa fa-question-circle" style="margin-left:5px" title="Number of samples of the true response that lie in the class."></i></th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for index, row in accuracy.iterrows %}
+				<tr>
+					<td>{{ index }}</td>
+					<td>{{ row.precision }}</td>
+					<td>{{ row.recall }}</td>
+					<td>{{ row.f1Score }}</td>
+					<td>{{ row.support }}</td>
+				</tr>
+				{% endfor %}
+
+			</tbody>
+		</table>
+	</div>
+	<!-- <h4><br>Accuracy Description</h4>
+	<p><b>Precision:</b> a measure of how many of the positive predictions made are correct. The value lies between 0 and 1, with one is a perfect precision score. Precision is important when we want false positive should be as low as possible, for example a detection of spam mail.<br></p>
+	<p><b>Recall:</b> a measure of how many of the positive cases the classifier correctly predicted, over all the positive cases in the data or true positive rate (TPR). The value lies between 0 and 1, with one is a perfect recall score. Recall is important when we want False-Negative to be as low as possible, for example a fraud detection or medical detection.<br></p>
+	<p><b>F1-Score:</b> a harmonic mean of precision and recall that takes both false positive and false negatives into account and performs well on an imbalanced dataset. The value lies between 0 and 1, with one is a perfect F1 score.<br></p>
+	<p><b>Support:</b> number of samples of the true response that lie in the class.<br><br><br></p> -->
+	<div class="row" data-aos="fade-up">
+		<table class="table">
+			<thead>
+				<tr>
+					{% for col in result.columns %}
+					  <th>{{col}}</th>
+					{% endfor %}
+				  </tr>
+			</thead>
+			<tbody>
+				{% for index, row in result.iterrows %}
+				<tr>
+					{% for i in row %}
+						<td>{{ i }}</td>
+					{% endfor %}
+				</tr>
+				{% endfor %}
+
+			</tbody>
+		</table>
+	</div>
+</div>

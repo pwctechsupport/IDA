@@ -1,0 +1,30 @@
+{% load static %}
+<div class="row" data-aos="fade-up">
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Algorithm</th>
+				<th>Class</th>
+				<th>Precision<i class="fa fa-question-circle" style="margin-left:5px" title="A measure of how many of the positive predictions made are correct. The value lies between 0 and 1, with one is a perfect precision score. Precision is important when we want false positive should be as low as possible, for example a detection of spam mail."></i></th>
+				<th>Recall<i class="fa fa-question-circle" style="margin-left:5px" title="A measure of how many of the positive cases the classifier correctly predicted, over all the positive cases in the data or true positive rate (TPR). The value lies between 0 and 1, with one is a perfect recall score. Recall is important when we want False-Negative to be as low as possible, for example a fraud detection or medical detection."></i></th>
+				<th>F1 Score<i class="fa fa-question-circle" style="margin-left:5px" title="A harmonic mean of precision and recall that takes both false positive and false negatives into account and performs well on an imbalanced dataset. The value lies between 0 and 1, with one is a perfect F1 score."></i></th>
+				<th>Support<i class="fa fa-question-circle" style="margin-left:5px" title="Number of samples of the true response that lie in the class."></i></th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for index, row in result.iterrows %}
+			<tr>
+				<td>{{ row.Algorithm }}</td>
+				<td>{{ index }}</td>
+				<td>{{ row.precision }}</td>
+				<td>{{ row.recall }}</td>
+				<td>{{ row.f1Score }}</td>
+				<td>{{ row.support }}</td>
+				<td>{{ row.Action }}</td>
+			</tr>
+			{% endfor %}
+
+		</tbody>
+	</table>
+</div>

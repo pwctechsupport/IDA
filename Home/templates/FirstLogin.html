@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+    {% load static %}
+    <head>
+        <meta charset="utf-8">
+        <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+        <title>PwC Intelligent Data Assistant</title>
+        <meta content="" name="description">
+        <meta content="" name="keywords">
+
+        <!-- Favicons -->
+        <!-- <link href="{% static 'assets/img/favicon.png'%}" rel="icon"> -->
+        <link href="{% static 'assets/img/apple-touch-icon.png'%}" rel="apple-touch-icon">
+
+        <!-- Google Fonts -->
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i&display=swap" rel="stylesheet">
+
+        <!-- Vendor CSS Files -->
+        <link href="{% static 'assets/vendor/animate.css/animate.min.css'%}" rel="stylesheet">
+        <link href="{% static 'assets/vendor/aos/aos.css'%}" rel="stylesheet">
+        <link href="{% static 'assets/vendor/bootstrap/css/bootstrap.min.css'%}" rel="stylesheet">
+        <link href="{% static 'assets/vendor/bootstrap-icons/bootstrap-icons.css'%}" rel="stylesheet">
+        <link href="{% static 'assets/vendor/boxicons/css/boxicons.min.css'%}" rel="stylesheet">
+        <link href="{% static 'assets/vendor/glightbox/css/glightbox.min.css'%}" rel="stylesheet">
+        <link href="{% static 'assets/vendor/swiper/swiper-bundle.min.css'%}" rel="stylesheet">
+
+        <!-- Template Main CSS File -->
+        <link href="{% static 'assets/css/style.css'%}" rel="stylesheet">
+
+        <!-- =======================================================
+        * Template Name: Moderna - v4.8.0
+        * Template URL: https://bootstrapmade.com/free-bootstrap-template-corporate-moderna/
+        * Author: BootstrapMade.com
+        * License: https://bootstrapmade.com/license/
+        ======================================================== -->
+
+        <link rel="stylesheet" type="text/css" media="screen" href="{% static 'CSS/jquery-ui.css'%}" />
+        <link href="{% static 'CSS/sweetAlert.css'%}" rel="stylesheet" />
+        <script type="text/javascript" src="{% static 'Script/jquery.js'%}"></script>
+        <script type="text/javascript" src="{% static 'Script/jquery-ui.min.js'%}"></script>
+        <script type="text/javascript" src="{% static 'Script/bootstrap.bundle.js'%}"></script>
+        <script src="{% static 'Script/sweetAlert.js'%}"></script>
+
+        <link rel="stylesheet" href="{% static 'CSS/site.css'%}">
+        
+    </head>
+    <body style="background-image: url('{% static 'images/Intranet_Pattern_1920x1080_V1_Solid.png'%}');background-repeat: no-repeat;background-size: cover; height: 100vh">
+        {% comment %} <div class="container">
+            <div class="card shadow col-sm-2" style="border-radius: 10px;margin: 0;position: absolute;top: 50%;left: 50%;-ms-transform: translate(-50%, -50%);transform: translate(-50%, -50%);">
+                <div style="padding: 20px;text-align: center;">
+<!--                    <form action="/FirstApp/doChangePassword/" method="post" role="form" class="php-email-form">{% csrf_token %} -->
+                    <!-- <input name="csrfToken" value="token_value" type="hidden"> -->
+                    <div class="row">
+                        <div class="form-group mt-3 mt-md-0">
+                            <input type="text" class="form-control" name="Username" id="Username" placeholder="Username" required>
+                        </div>
+                    </div>
+                    <div class="row" style="margin-top:20px;">
+                        <div class="form-group mt-3 mt-md-0">
+                            <input type="password" class="form-control" name="Password" id="Password" placeholder="Password" required>
+                        </div>
+                    </div>
+                    <div><input type="submit" value="Login" class="btn btn-Action" onclick="FirstLogin();" id="FirstLogin" style="margin-top:20px;"><!-- <button class="btn btn-Action" id="btnSubmitContact" type="submit">Submit</button> --></div>
+<!--                    </form> -->
+                </div>
+            </div>
+        </div> {% endcomment %}
+	    <img src="{% static 'images/PwC_Outline_Logo_Black_RGB.png'%}" alt="" style="left: 50px; width: 150px; position: absolute">
+        <div style="width: 600px; display: flex; align-items: center; height: 100vh; background: #f9b600">
+            <div style="width: 350px; height: 360px; border: none; margin-left: 125px">
+                <div class="card-body" style="padding: 30px; padding-top: 50px;">
+                    <h4 style="font-family: Georgia">Intelligent Data Assistant</h4>
+                    <div id= loginform method="post" role="form" class="php-email-form mt-4" style="display: flex; flex-direction: column; align-items: center;">
+                        {% csrf_token %}
+                        <div class="row" style="width: 100%">
+                            <div class="form-group p-0" style="width: 100%">
+                                <label class="mb-2">Username</label>
+                                <input type="text" name="Username" class="form-control" id="Username" required>
+                            </div>
+                        </div>
+                        <div class="row" style="margin-top:24px; width: 100%">
+                            <div class="form-group mt-3 mt-md-0 p-0">
+                                <label class="mb-2">Password</label>
+                                <input type="password" class="form-control" name="Password" id="Password" required>
+                            </div>
+                        </div>
+                        <div style="width: 100%; display: flex; ">
+                            <input type="submit" value="Login" class="btn btn-Action mt-4 px-3" onclick="FirstLogin();" id="FirstLogin" style="margin-left: auto; background-color: #E0301E; border-color: #E0301E">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="ToSModal" tabindex="-1" role="dialog" aria-labelledby="ToSModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style="max-width: 80%; max-height: 80%;">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="ToSModalLabel">Intelligent Data Assistant 1.0.0 License Agreement</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-Action" id="accepttos" style="background-color: #E0301E; broder-color: #E0301E" >Accept</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".navbar ul li a").removeClass();
+        $("#navContact").addClass('active');
+        $("#titlePage").text("Hi, I'm Neo, your AI data assistant");
+        $("#subTitlePage").text('How can I help you today?');
+        document.title = 'PwC Intelligent Data Assistant Contact Us';
+        $.ajax({
+            type: "GET",
+            url: "/Home/TermOfService/",
+            success: function (data) {
+                $('#ToSModal').find('.modal-body').empty();
+                $('#ToSModal').find('.modal-body').html(data);
+            }
+        });
+    });
+
+    $("#Password").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#FirstLogin").click();
+        }
+    });
+
+    function FirstLogin(){
+        $.ajax({
+            type: "POST",
+            url: "/Home/doLogin/",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+            data: JSON.stringify({
+                username: $('#Username').val(),
+                password: $('#Password').val(),
+            }),
+            success: function (data) {
+                if(data.message=="success"){
+                    $('#ToSModal').modal('show');
+                    $('#accepttos').click(function(){
+                        window.location.href = "/Explore/chat/";
+                    }); 
+                } else if (data.message=="attempt") {
+                    swal({
+                        title: "", 
+                        text: "To many login attempt, please try again later", 
+                        type: "error"
+                    },
+                    function(){ 
+                        location.reload();
+                    });     
+                }else{
+                    swal({
+                            title: "", 
+                            text: "Invalid Username or Password", 
+                            type: "error"
+                        },
+                        function(){ 
+                            location.reload();
+                        }
+                    );              
+                }
+            }
+        });
+        return false;
+    }
+</script>
+</html>

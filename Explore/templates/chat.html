@@ -1,0 +1,863 @@
+{% extends "layout.html" %}
+{% block content %}
+{% load static %}
+<style>
+    /*Scrollbar CSS*/
+    ::-webkit-scrollbar {
+        width: 10px;
+    }
+    /* Track */
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+        background: #888;
+        border-radius: calc(0.35rem - 1px) calc(0.35rem - 1px) calc(0.35rem - 1px) calc(0.35rem - 1px)
+    }
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+    .dt-body-center, .dt-body-left {
+        vertical-align: middle !important;
+    }
+
+    .dataTables_filter {
+        display: none;
+    }
+
+    .page-item.active .page-link {
+        background-color: #EAECF4 !important;
+        border: 1px solid #d1d3e2 !important;
+        color: dimgrey !important;
+        font-weight: bold !important;
+    }
+
+        .page-item.active .page-link:hover {
+            background-color: lightgrey !important;
+            border: 1px solid #d1d3e2 !important;
+        }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        background: none !important;
+        border: none !important;
+        margin: 0px !important;
+    }
+
+    .page-link {
+        color: dimgrey !important;
+    }
+
+        .page-link:hover {
+            color: dimgrey !important;
+            font-weight: bold !important;
+            background-color: white !important;
+        }
+
+    .page-item.disabled .page-link {
+        color: lightgrey !important;
+    }
+
+    .breakword {
+        word-break: break-word;
+    }
+
+    .cAnswer:hover{
+        color: black !important;
+        text-decoration: none;
+    }
+
+    .read-more {
+        /* -moz-text-align-last: right;
+        text-align-last: right; */
+        color:#68A4C4;
+    }
+    .read-more a {
+        display: inline;
+        /* background: #68A4C4;
+        
+        padding: 6px 20px;
+        transition: 0.3s; */
+        font-size: 14px;
+    }
+    .read-more a:hover {
+        /* background: #68A4C4; */
+        color: #68A4C4 !important;
+        filter: brightness(60%);
+        cursor: pointer;
+    }
+
+    .viewMore {
+        -moz-text-align-last: right;
+        text-align-last: right;
+        background-color: #d93954 !important;
+        color: #fff !important;
+    }
+    .viewMore a {
+        display: inline-block;
+        background: #d93954;
+        
+        padding: 6px 20px;
+        transition: 0.3s;
+        font-size: 14px;
+    }
+    .viewMore a:hover {
+        cursor: pointer;
+    }
+    .crop {
+        width: 60px;
+        height: 40px;
+        overflow: hidden;
+    }
+
+    .crop img {
+        width: 100px;
+        height: 100px;
+        margin: -30px 0 0 -20px;
+    }
+	.inputLabel:hover{
+		cursor:pointer;
+	}
+
+</style>
+
+<div class="mb-3"></div>
+
+<!--Home-->
+<div class="container">
+    <div class="row" data-aos="fade-up" style="margin-bottom: 50px">
+        <div class="col-md-3">
+            <img src="{% static 'images/Intranet.People.Illustration.Animated.V01.gif'%}" class="img-fluid" alt="">
+        </div>
+        <div class="col-md-9 pt-4" id="appendQnA">
+
+        </div>
+    </div>
+    <hr data-aos="fade-up">
+    <div class="row" data-aos="fade-up" style="margin-top: 50px; margin-bottom: 30px">
+        <div class="col-md-2 order-1 order-md-2">
+            <a href="{%url 'Contact:contact'%}"><img src="{% static 'images/Arrow Increase.black.tile.png'%}" class="img-fluid" alt=""></a>
+        </div>
+        <div class="col-md-8 pt-2 order-2 order-md-1">
+            <h2>Interested to explore further on how AI can be tailored to your business needs?</h2>
+            <p>Connect with us.</p>
+        </div>
+    </div>
+    <hr data-aos="fade-up">
+</div>
+
+
+
+<div class="modal fade" id="NewPopUp" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document" style="max-width: 80%; max-height: 80%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title text-black-50" id="exampleModalLabel">
+                    <label id="lblPopUpTitle"></label>
+                </h3>
+                <button type="button" class="gclose gbtn" id="closeModal" style="background-color:white" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body"></div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $(".navbar ul li a").removeClass();
+        $("#navChat").addClass('active');
+        $("#titlePage").text("Hi, I'm your Intelligent Data Assistant").css('font-family', 'Georgia').css('line-height', '1.15');
+        $("#subTitlePage").text('How can I help you today?').css('font-family', "'Arial'").css('font-weight', 'bold');
+        document.title = 'PwC Intelligent Data Assistant Explore you data';
+        var globalChatCode = "";
+        var globalFileChatCode = "";
+        var globalMLType = "";
+        var globalIsSample = "";
+        // $('body').prepend('<div class="pembungkus-loader added">' +
+        //     '<img style="position: relative; height: 75px; width: 75px; left: 45%;" src="{% static 'images/tenor.gif'%}" /></div>');
+
+        setTimeout(function () {
+            //Contoh manggil function dari Controller
+
+            $('#userDropdown').click(function () {
+                $('.dropdown-menu').show();
+            });
+
+            $('#userDropdown').focusout(function () {
+                setTimeout(function () {
+                    $('.dropdown-menu').hide();
+                }, 500);
+            });
+           
+            // $('.pembungkus-loader').remove();
+        }, 1000);
+        
+        $('#closeModal').off().on('click',function(){
+            $('#NewPopUp').modal('hide');
+        });
+
+        // async function f() {
+        //   return 1;
+        // }
+
+        // f().then(alert);
+        var StatusResult = {};
+
+        // function submitFile(chatcode, mltype, StatusResult){
+        //     var formdata = new FormData();
+        //     var fileInput = $('#inputFile'+chatcode);
+        //     for (i = 0; i < fileInput[0].files.length; i++) {
+        //         // formdata.append(fileInput[0].files[i].name, fileInput[0].files[i]);
+        //         formdata.append("file", fileInput[0].files[i]);
+        //     }
+        //     formdata.append("mltype",mltype);
+        //     $('body').prepend('<div class="pembungkus-loader added">' +
+        //     '<img style="position: relative; height: 75px; width: 75px; left: 45%;" src="{% static 'images/tenor.gif'%}" /></div>');
+
+        //     $.ajax({
+        //         url: "/FirstApp/upload_file/",
+        //         type: "POST",
+        //         enctype: 'multipart/form-data',
+        //         headers: {'X-CSRFToken': '{{ csrf_token }}'},
+        //         data: formdata,
+        //         contentType: false,
+        //         processData: false,
+        //         beforeSend: function () {
+        //             // $('.listError'+chatcode).empty();
+        //         },
+        //         success: function (data) {
+        //             StatusResult.data = data;
+                    
+        //             // $('#NewPopUp').find('.modal-body').empty();
+        //             // $('#NewPopUp').find('.modal-body').html(data);
+        //             // triggerBeginChat(globalChatCode,1,data);
+        //             if (data.status == 'error'){
+        //                 swal('Oops...', data.message, 'error');
+        //             }
+        //             else{
+        //                 console.log("enter");
+        //                 console.log(globalChatCode);
+        //                 triggerBeginChat(globalChatCode,1,data);
+        //             }
+        //             console.log(StatusResult)
+        //             $('.pembungkus-loader').remove();
+        //         }
+        //     });
+        //     return StatusResult;
+        // }
+
+        // const wait = (t) => new Promise((r) => setTimeout(r, t)); 
+
+        // const firstFunc = async (chatCodeParam, mltype) => {
+        //   // await wait(1000); // Just to fake some wait time
+        //   StatusResult=submitFile(chatCodeParam,mltype, StatusResult);
+        //   console.log("1");
+        //   return StatusResult;
+        // }
+
+        // const secondFunc = (chatCodeParam) => { // This does not need to be async
+          
+        //     // if(StatusResult.data !== null){
+        //         console.log("second one");
+        //         $('#submit'+chatCodeParam).off('click');
+        //         triggerBeginChat(chatCodeParam);
+        //     // }
+          
+        // }
+
+        // const run2functions = async(chatCodeParam, mltype) => {
+        //     StatusResult=await firstFunc(chatCodeParam, mltype);  // Await for this one
+        //     console.log(StatusResult);
+        //     if(StatusResult.data !== null){
+        //         await secondFunc(chatCodeParam);       // You don't need to await for this one
+        //     }
+        // };
+
+        
+
+        function ViewMore(chatcode, mltype, algoType){
+            var formdata = new FormData();
+            var fileInput = $('#inputFile'+chatcode);
+            for (i = 0; i < fileInput[0].files.length; i++) {
+                // formdata.append(fileInput[0].files[i].name, fileInput[0].files[i]);
+                formdata.append("file", fileInput[0].files[i]);
+            }
+            formdata.append("mltype",mltype);
+            formdata.append("algoType",algoType);
+            formdata.append("issample",globalIsSample);
+            // $('body').prepend('<div class="pembungkus-loader added">' +
+            // '<img style="position: relative; height: 75px; width: 75px; left: 45%;" src="{% static 'images/tenor.gif'%}" /></div>');
+            
+            $.ajax({
+                url: "/Explore/viewMore/",
+                type: "POST",
+                enctype: 'multipart/form-data',
+                headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                data: formdata,
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    // $('.pembungkus-loader').remove();
+                    $('#NewPopUp').find('.modal-body').empty();
+                    $('#NewPopUp').find('.modal-body').html(data);
+                    $('#NewPopUp').modal('show');
+                }
+            });
+        }
+
+        //     $.ajax({
+        //         type: "POST",
+        //         url: "/FirstApp/contoh_form_tanpa_file/",
+        //         dataType: "json",
+        //         contentType: "application/json; charset=utf-8",
+        //         headers: {'X-CSRFToken': '{{ csrf_token }}'},
+        //         data: JSON.stringify({
+        //             id:"satu"
+        //         }),
+        //         success: function (data) {
+        //             $('.pembungkus-loader').remove();
+        //             console.log(data.return);
+        //         }
+        //     });
+        $('#appendQnA').append('<div class="card shadow loadChat" style="padding:0;margin-bottom:10px;width:max-content;">'+
+                                    '<div class="card-header" style="padding:0;">' +
+                                        '<div class="crop"><img src="{% static 'images/JVX7.gif'%}"></div>'+
+                                    '</div>'+
+                                '</div>').children(':last').hide().fadeIn("slow");
+        setTimeout(function () {
+            $('.loadChat').remove();
+            triggerBeginChat(0);
+        }, 2000);
+        function triggerBeginChat(chatcode, isSubmitFile=0,htmlString="") {
+            $.ajax({
+                type: "POST",
+                url: "/Explore/TriggerNewChat/",
+                dataType: "",
+                contentType: "application/json; charset=utf-8",
+                headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                data: JSON.stringify({
+                    parentCode:chatcode
+                }),
+                success: function (data) {
+                    data = data.replace(/&lt;b&gt;/g, '<b>')
+                    data = data.replace(/&lt;\/b&gt;/g, '</b>')
+                    data = data.replace(/&lt;\/br&gt;/g, '</br>')
+                    data = JSON.parse(data.replace(/&quot;/g,'"'))
+                    if(data.ChatData.length>0){
+                        // var chatCodeQuestion = 0;
+                        for(var i=0;i<data.ChatData.length;i++){
+                            if(data.ChatData[i].isquestion==0){
+                                globalChatCode = chatQuestionCode;
+                                var chatAsnwerCode = data.ChatData[i].chatlistcode;
+                                var splitAnswer = data.ChatData[i].description.split(" ");
+                                // console.log(splitString);
+                                var combineAnswer = "";
+                                if(splitAnswer.length>10){
+                                    var midLength = Math.ceil(splitAnswer.length/2)+3;
+                                    console.log("msk");
+                                    for(var j=0;j<midLength;j++)
+                                        combineAnswer=combineAnswer+" "+splitAnswer[j];
+                                    combineAnswer=combineAnswer+"</br>";
+                                    for(var j=midLength;j<splitAnswer.length;j++)
+                                        combineAnswer=combineAnswer+" "+splitAnswer[j];
+                                }else{
+                                    combineAnswer = data.ChatData[i].description;
+                                }
+                                $('.QnA_'+data.ChatData[i].parentchatcode).append('<div class="icon-box icon-box-pink" id="answer'+chatAsnwerCode+'" chatcode='+chatAsnwerCode+' isReset='+data.ChatData[i].isreset+' style="margin-bottom:10px;border-radius:50px;display:inline-block;padding:0.75rem 1.25rem;width: max-content;margin-right:20px;cursor:pointer;min-width:90px">'+
+                                    '<div class="m-0">'+combineAnswer+'</div>'+
+                                '</div>').children(':last').hide().fadeIn("normal");
+
+                                $('#answer'+chatAsnwerCode).off().on('click',function () {
+                                    // $(this).siblings().remove();
+                                    // $(this).siblings().fadeOut(300, function() { $(this).remove(); });
+                                    var chatCode = $(this).attr('chatcode');
+                                    var isReset = $(this).attr('isReset');
+                                    // var tempElement = this;
+                                    if(isReset==1){
+                                        // $('#appendQnA').empty();
+                                        $('#appendQnA').children().fadeOut("slow", function() {
+                                            $('#appendQnA').empty();
+                                            $('#appendQnA').append('<div class="card shadow loadChat" style="padding:0;margin-bottom:10px;width:max-content;">'+
+                                                                    '<div class="card-header" style="padding:0;">' +
+                                                                        '<div class="crop"><img src="{% static 'images/JVX7.gif'%}"></div>'+
+                                                                    '</div>'+
+                                                                '</div>').children(':last').hide().fadeIn("slow");
+                                        });
+                                        
+                                        setTimeout(function () {
+                                            $('.loadChat').remove();
+                                            triggerBeginChat(0);
+                                        },2000);
+                                    }else{
+                                        $('#appendQnA').append('<div class="card shadow loadChat" style="padding:0;margin-bottom:10px;width:max-content;">'+
+                                                                    '<div class="card-header" style="padding:0;">' +
+                                                                        '<div class="crop"><img src="{% static 'images/JVX7.gif'%}"></div>'+
+                                                                    '</div>'+
+                                                                '</div>').children(':last').hide().fadeIn("slow");
+                                        setTimeout(function () {
+                                            $('.loadChat').remove();
+                                            triggerBeginChat(chatCode);
+                                        },2000);
+                                        // setTimeout(function () {
+                                        //     triggerBeginChat(chatCode);
+                                        // },300);
+                                        $(this).off('click');
+                                    }
+                                    $(this).css("background-color","#dedede");
+                                    $(this).hover(function() {
+                                        $(this).css("border-color","#dedede").css("cursor","default");
+                                    });
+                                    $(this).siblings().fadeOut("fast", function() {
+                                        $(this).remove();
+                                    });
+                                    
+                                    
+                                });
+                            }else{
+                                var chatQuestionCode = data.ChatData[i].chatlistcode;
+                                if(data.ChatData[i].isupload==1){
+                                    globalFileChatCode = chatQuestionCode;
+                                    var mltype = data.ChatData[i].mltype;
+                                    globalMLType = mltype;
+                                    $('#appendQnA').append('<div class="card shadow mb col-sm-6" style="padding:0;margin-bottom:10px;">'+
+                                        '<div class="card-header py-3"' +
+                                            '<div class="m-0" style="color:black">'+data.ChatData[i].description+'</br>'+
+                                            // Choose File
+                                            // '<input type="file" class="btn btn-Download shadow-sm" id="inputFile'+chatQuestionCode+'" style="display: none;">'+
+                                            // '<label for="inputFile'+chatQuestionCode+'" value="Choose File" style="margin-bottom: 0px;margin-top:10px; padding: 0.1rem 0.375rem" class="btn btn-File">Choose File</label>'+
+                                            // // Submit
+                                            // '<input type="button" class="btn btn-Action" value="Submit" id="submit'+chatQuestionCode+'" style="margin-top:10px;margin-left:5px; ; padding: 0.1rem 0.375rem">'+
+                                            // // Download Template
+                                            // '<input type="button" class="btn btn-Download shadow-sm" value="Download Template" name="globalMLType" id="download" style="margin-top:10px; margin-left:5px; padding: 0.1rem 0.375rem">'+
+                                            // // Download Sample
+                                            // '<input type="button" class="btn btn-Download shadow-sm" value="Sample Data" name="globalMLType" id="download-sample" style="margin-top:10px; margin-left:5px; padding: 0.1rem 0.375rem; background: #d93954; border-color: #d93954">'+
+                                            // '<br>'+
+                                            // '<label id="label'+chatQuestionCode+'" style="font-size: 12px; color: red; margin-top: 10px"></label>'+
+                                            // '<a href="downloadtemplate/" id="globalMLType"> <button type="button" class="btn btn-Download shadow-sm" style="margin-top:10px;">Download Template</button></a>' +    
+                                            
+                                            // '<button class="showError'+chatQuestionCode+'">List Error</button>'+
+                                            // '<div class="listError'+chatQuestionCode+'" style="display: none;"></div>'+
+
+                                            //changed by andoko 8 Aug 20222
+											// Add inputLabel for pointer hover and change label location for button click by Nicholas 29-11-2022
+                                            // Change iSampleDescr from id to class
+											'<div>'+
+                                            '<div class="card-header inputLabel" style="background-color:rgb(222, 222, 222);display:inline-block;margin-right:5%;">'+
+                                            '<input type="file" class="btn btn-Download shadow-sm" id="inputFile'+chatQuestionCode+'" style="display: none;">'+
+                                            '<label class="inputLabel" for="inputFile'+chatQuestionCode+'" >Upload your file <i class="fas fa-upload" style="cursor:pointer" title="Upload you data"></i></label> <i class="fas fa-file-download" id="downloadtemplate" style="cursor:pointer" title="Download Template"></i>'+
+                                            '</div>'+
+                                            '<div class="card-header inputLabel" style="background-color:rgb(222, 222, 222);display:inline-block">'+
+                                            '<label><span class="iSampleDescr" style="cursor:pointer">Use Sample Data </span> <span id="download-sample" style="cursor:pointer"><i class="fas fa-download"  title="Download Sample Data"></i> </span> <span class="iSampleDescr"  style="cursor:pointer"><i class="fas fa-info-circle" title="Sample Data Description"></i></span></label>'+
+                                            '</div></div>'+
+                                        '</div></div>'+
+                                    '</div>').hide().fadeIn("normal");
+
+                                    $('.showError'+chatQuestionCode).off().on('click', function () {
+                                        if ($('.listError'+chatQuestionCode).css('display') === "none") {
+                                            $('.listError'+chatQuestionCode).css('display', 'block')
+                                        } else {
+                                            $('.listError'+chatQuestionCode).css('display', 'none')
+                                        }
+                                    });
+
+                                    $('#downloadtemplate').off().on('click',function(){
+                                        let id = mltype;
+                                        console.log(id);
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/Explore/chat/downloadtemplate/",
+                                            enctype: 'multipart/form-data',
+                                            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                                            data: {
+                                                'mltype': id,
+                                            },
+                                            xhrFields:{
+                                                responseType: 'blob'
+                                            },
+                                            error: function(response){
+                                                console.log('error')
+                                            
+                                            },
+                                            success: function(response) {
+                                                // console.log(response)
+                                                var blob=new Blob([response]);
+                                                var link=document.createElement('a');
+                                                link.href=window.URL.createObjectURL(blob);
+                                                link.download= id+"_Template.xlsx";
+                                                link.click();
+                                            }
+                                          });
+                                    });
+
+                                    $('#download-sample').off().on('click',function(){
+                                        let id = mltype;
+                                        console.log(id);
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/Explore/chat/downloadsample/",
+                                            enctype: 'multipart/form-data',
+                                            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                                            data: {
+                                                'mltype': id,
+                                            },
+                                            xhrFields:{
+                                                responseType: 'blob'
+                                            },
+                                            error: function(response){
+                                                console.log(response)
+                                                console.log('error')
+                                            
+                                            },
+                                            success: function(response) {
+                                                // console.log(response)
+                                                var blob=new Blob([response]);
+                                                var link=document.createElement('a');
+                                                link.href=window.URL.createObjectURL(blob);
+                                                link.download= "Sample_Data_"+id+".xlsx";
+                                                link.click();
+                                            }
+                                          });
+                                    });
+                                    
+                                    $('.iSampleDescr').off().on('click',function(){
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "/Explore/viewSampleData/",
+                                            dataType: "json",
+                                            contentType: "application/json; charset=utf-8",
+                                            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                                            data: JSON.stringify({
+                                                mltype:mltype
+                                            }),
+                                            success: function (sample) {
+                                                $('#appendQnA').append('<div class="card shadow mb col-sm-6" id="sampleTable" style="padding:0;margin-bottom:10px;">'+
+                                                    '<div class="card-header py-3"><div class="m-0" style="color:black; text-align: center">'+sample.table+'</br></div></div></div>').hide().fadeIn("normal");
+                                                triggerSample(chatQuestionCode, mltype);
+                                            }
+                                        });
+                                    });
+
+                                    $('#inputFile'+chatQuestionCode).change(function () {
+                                        var fileInput = $('#inputFile'+chatQuestionCode);
+                                        var name = '';
+                                        for (i = 0; i < fileInput[0].files.length; i++) {
+                                            name = name + '- ' + fileInput[0].files[i].name + '<br/>';
+                                        }
+                                        $('#label'+chatQuestionCode).html(name);
+
+                                        //changed by andoko 8 aug 2022, gabung change function ama submit function
+                                    // });
+                                    // $('#submit'+chatQuestionCode).off().on('click',function(){
+                                        
+                                        // run2functions(chatQuestionCode, mltype);
+                                        // console.log(StatusResult);
+                                        // $(this).off('click');
+                                        // var myPromise = new Promise(function(resolve){
+                                        //     submitFile(chatQuestionCode,mltype, StatusResult);
+                                        //     resolve();
+                                        // });
+                                         
+                                        // //setTimeout(function(){
+                                        //     myPromise.then(function(result){
+
+                                        //         console.log(chatQuestionCode);
+                                        //         // console.log(result);
+                                                
+                                        //         // if(StatusResult.data !== null){
+                                        //             $('#submit'+chatQuestionCode).off('click');
+                                        //             triggerBeginChat(chatQuestionCode);
+                                        //         // }
+                                        //     });
+                                        //},3000);
+                                        var formdata = new FormData();
+                                        var fileInput = $('#inputFile'+chatQuestionCode);
+                                        globalIsSample = 0;
+                                        for (i = 0; i < fileInput[0].files.length; i++) {
+                                            // formdata.append(fileInput[0].files[i].name, fileInput[0].files[i]);
+                                            formdata.append("file", fileInput[0].files[i]);
+                                        }
+                                        formdata.append("mltype",mltype);
+                                        formdata.append("issample",0);
+                                        // $('body').prepend('<div class="pembungkus-loader added">' +
+                                        // '<img style="position: relative; height: 75px; width: 75px; left: 45%;" src="{% static 'images/tenor.gif'%}" /></div>');
+                                        $.ajax({
+                                            url: "/Explore/validate_file/",
+                                            type: "POST",
+                                            enctype: 'multipart/form-data',
+                                            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                                            data: formdata,
+                                            contentType: false,
+                                            processData: false,
+                                            beforeSend: function () {
+                                                // $('.listError'+chatcode).empty();
+                                            },
+                                            success: function (data) {
+                                                data = data.replace(/&lt;b&gt;/g, '<b>')
+                                                data = data.replace(/&lt;\/b&gt;/g, '</b>')
+                                                data = data.replace(/&lt;\/br&gt;/g, '</br>')
+                                                data = JSON.parse(data.replace(/&quot;/g,'"'))
+                                                StatusResult = data;
+                                                if (data.status == 'error'){
+                                                    swal('Oops...', data.message, 'error');
+                                                }
+                                                else{
+                                                    triggerBeginChat(chatQuestionCode);
+                                                    $.ajax({
+                                                        url: "/Explore/upload_file/",
+                                                        type: "POST",
+                                                        enctype: 'multipart/form-data',
+                                                        headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                                                        data: formdata,
+                                                        contentType: false,
+                                                        processData: false,
+                                                        beforeSend: function () {
+                                                            // $('.listError'+chatcode).empty();
+                                                        },
+                                                        success: function (data) {
+                                                            // StatusResult = data;
+                                                            // if (data.status == 'error'){
+                                                            //     swal('Oops...', data.message, 'error');
+                                                            // }
+                                                            // else{
+                                                            //     triggerBeginChat(chatQuestionCode);
+                                                            // }
+                                                            // if(data.status != "error"){
+                                                                // $('#submit'+chatQuestionCode).off('click');
+                                                                // setTimeout(function(){
+                                                                //     triggerBeginChat(globalChatCode,1,response);
+                                                                // },300);
+                                                                
+                                                            // }
+                                                        }
+                                                    }).done(function(response){
+                                                        // console.log("Done");
+                                                        // console.log("global: "+globalChatCode);
+                                                        // console.log(chatQuestionCode);
+                                                        $('#inputFile'+chatQuestionCode).prop('disabled',true);
+                                                        setTimeout(function(){
+                                                            triggerBeginChat(globalChatCode,1,response);
+                                                        },300);
+                                                        $('.iSampleDescr').off('click');
+                                                    });
+                                                }
+                                                // console.log(StatusResult)
+                                                // $('.pembungkus-loader').remove();
+                                            }
+                                        });
+
+                                        
+                                    });
+                                }else{
+                                    globalChatCode = chatQuestionCode;
+                                    // console.log("global2 : "+globalChatCode)
+                                    if(isSubmitFile==1 && data.ChatData[i].order==1){
+                                        var mltype = data.ChatData[i].mltype;
+                                        $('#appendQnA').append('<div class="card shadow mb col-sm-12" style="padding:0;margin-bottom:10px;">'+
+                                            '<div class="card-header py-3">' +
+                                                '<div class="m-0" style="color:black">'+data.ChatData[i].description+''+
+                                                '</br>'+
+                                                // '<input type="button" class="btn btn-Action" value="View Result" id="idViewResult" style="margin-bottom: 0px;margin-top:10px;">'+
+                                                '<div id="accuracyDescr"></div>'+'<div id="summaryResult"></div>'+
+                                            '</div></div>'+
+                                        '</div>').children(':last').hide().fadeIn("slow");
+                                        $('#summaryResult').append(htmlString);
+                                        
+                                        $('.viewMore').off().on('click',function(){
+                                            var algoType = $(this).attr('AlgoType');
+                                            ViewMore(globalFileChatCode, globalMLType, algoType);
+                                        });
+                                        triggerBeginChat(chatQuestionCode);
+                                    }else{
+                                        var splitString=data.ChatData[i].description.split("</br>");
+                                        // console.log(splitString);
+                                        if(splitString.length>2){
+                                            var combineString = "";
+                                            var stringText = splitString[2];
+                                            var slice = 200;
+                                            var cutString = stringText.slice(0, slice) + '... ';
+                                            var damn = '...';
+
+                                            for(var count=3;count<splitString.length;count++){
+                                                combineString=combineString+splitString[count]+'</br>';
+                                            }
+                                            $('#appendQnA').append('<div class="card shadow mb col-sm-6" style="padding:0;margin-bottom:10px;">'+
+                                                '<div class="card-header py-3">' +
+                                                    '<div class="m-0" style="color:black">'+splitString[0]+'</b><br><br>'+
+                                                    // '<div id="cutText" style="display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; text-overflow:hidden">'+stringText+'</div>'+
+                                                    '<div id="cutText" style="display:none">'+stringText+'</div>'+
+                                                    '<div id="cutText2" style="display:inline">'+cutString+'</div>'+
+                                                    '<div id="moreText" style="display:none">'+combineString+'</div>'+
+                                                    '<div class="read-more" style="display:inline"><a>Read More</a></div>'+
+                                                '</div></div>'+
+                                            '</div>').children(':last').hide().fadeIn("slow");
+                                            $('.read-more').off().on('click',function(){
+                                                if($('#moreText').css('display') == 'none'){
+                                                    $('#cutText').css('display','block');
+                                                    $('#cutText2').css('display','none');
+                                                    $('#moreText').css('display','block');
+                                                    $('.read-more a').text('Read less');
+                                                }else{
+                                                    // $('#cutText').css({'display':'-webkit-box', '-webkit-line-clamp':'3', '-webkit-box-orient':'vertical','overflow':'hidden','text-overflow':'hidden'});
+                                                    $('#cutText').css('display','none');
+                                                    $('#cutText2').css('display','inline');
+                                                    $('#moreText').css('display','none');
+                                                    $('.read-more a').text('Read more');
+                                                }  
+                                            });
+                                        }else{
+                                            $('#appendQnA').append('<div class="card shadow mb col-sm-6" style="padding:0;margin-bottom:10px;">'+
+                                                '<div class="card-header py-3">' +
+                                                    '<div class="m-0" style="color:black">'+data.ChatData[i].description+'</div>'+
+                                                '</div>'+
+                                            '</div>').children(':last').hide().fadeIn("slow");
+                                        }
+                                        
+                                    }
+                                    
+                                    $('#appendQnA').append('<div class="QnA_'+data.ChatData[i].parentchatcode+' services" style="width:max-content;max-width:100%;margin-left:auto;margin-right:0px;text-align:right;"></div>').children(':last').hide().fadeIn("slow");
+                                    $('.QnA_'+data.ChatData[i].parentchatcode).not(':last').remove();
+                                    
+                                    // triggerBeginChat(chatQuestionCode);
+                                    // chatCodeQuestion = data.ChatData[i].chatlistcode;    
+                                }
+                            }
+                            
+                        }
+                    }
+                    
+                    // $('.pembungkus-loader').remove();
+                }
+            });
+        }
+        function triggerSample(chatQuestionCode, mltype) {
+            $('.iSampleDescr').off('click');
+            $.ajax({
+                type: "POST",
+                url: "/Explore/getSampleDescription/",
+                dataType: "",
+                contentType: "application/json; charset=utf-8",
+                headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                data: JSON.stringify({
+                    'chatcode': chatQuestionCode,
+                    'mltype': mltype
+                }),
+                success: function(descr) {
+                    descr = descr.replace(/&lt;b&gt;/g, '<b>')
+                    descr = descr.replace(/&lt;\/b&gt;/g, '</b>')
+                    descr = descr.replace(/&lt;\/br&gt;/g, '</br>')
+                    descr = JSON.parse(descr.replace(/&quot;/g,'"'))
+                    if(descr.ChatData.length>0){
+                        // var chatCodeQuestion = 0;
+                        for(var a=0;a<descr.ChatData.length;a++){
+                            if(descr.ChatData[a].isquestion==1){
+                                $('#appendQnA').append('<div class="card shadow mb col-sm-6" style="padding:0;margin-bottom:10px;">'+
+                                    '<div class="card-header py-3">' +
+                                        '<div class="m-0" style="color:black">'+descr.ChatData[a].description+'</br></div></div></div>').hide().fadeIn("normal");
+                                $('#appendQnA').append('<div class="QnA_'+descr.ChatData[a].parentchatcode+'_Sample services" style="width:max-content;max-width:100%;margin-left:auto;margin-right:0px;text-align:right;"></div>').children(':last').hide().fadeIn("slow");
+                                $('.QnA_'+descr.ChatData[a].parentchatcode).not(':last').remove();
+                            }else{
+                                var sampleParentChatCode = descr.ChatData[a].parentchatcode;
+                                $('.QnA_'+sampleParentChatCode+'_Sample').append('<div class="icon-box icon-box-pink" id="answer'+descr.ChatData[a].chatlistcode+'" chatcode='+descr.ChatData[a].chatlistcode+' isReset='+descr.ChatData[a].isreset+' style="margin-bottom:10px;border-radius:50px;display:inline-block;padding:0.75rem 1.25rem;width: max-content;margin-right:20px;cursor:pointer;min-width:90px">'+
+                                    '<div class="m-0">'+descr.ChatData[a].description+'</div>'+
+                                '</div>').children(':last').hide().fadeIn("normal");
+                                $('#inputFile'+chatQuestionCode).prop('disabled',true);
+                                $('#answer'+descr.ChatData[a].chatlistcode).off().on('click',function () {
+                                    
+                                    var chatCode = $(this).attr('chatcode');
+                                    var isReset = $(this).attr('isReset');
+                                    // var tempElement = this;
+                                    if(isReset==1){
+                                        // $('#appendQnA').empty();
+                                        $('.QnA_'+sampleParentChatCode+'_Sample').fadeOut("slow", function() {
+                                            $(this).remove();
+                                        });
+                                        $('#appendQnA .card:last').fadeOut("slow", function() {
+                                            $(this).remove();
+                                        });
+                                        $('#sampleTable').remove();
+                                        $('#inputFile'+chatQuestionCode).prop('disabled',false);
+                                        $('.iSampleDescr').off().on('click',function(){
+                                            $.ajax({
+                                            type: "POST",
+                                            url: "/Explore/viewSampleData/",
+                                            dataType: "json",
+                                            contentType: "application/json; charset=utf-8",
+                                            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                                            data: JSON.stringify({
+                                                mltype:mltype
+                                            }),
+                                            success: function (sample) {
+                                                $('#appendQnA').append('<div class="card shadow mb col-sm-6" id="sampleTable" style="padding:0;margin-bottom:10px;">'+
+                                                    '<div class="card-header py-3"><div class="m-0" style="color:black; text-align: center">'+sample.table+'</br></div></div></div>').hide().fadeIn("normal");
+                                                triggerSample(chatQuestionCode, mltype);
+                                            }
+                                        });
+                                        });
+                                    }else{
+                                        triggerBeginChat(chatQuestionCode);
+                                        var formdata = new FormData();
+                                        globalIsSample = 1;
+                                        formdata.append("mltype",mltype);
+                                        formdata.append("issample",1);
+                                        $.ajax({
+                                            url: "/Explore/upload_file/",
+                                            type: "POST",
+                                            enctype: 'multipart/form-data',
+                                            headers: {'X-CSRFToken': '{{ csrf_token }}'},
+                                            data: formdata,
+                                            contentType: false,
+                                            processData: false,
+                                            beforeSend: function () {
+                                                // $('.listError'+chatcode).empty();
+                                            },
+                                            success: function (data) {
+                                                // StatusResult = data;
+                                                // if (data.status == 'error'){
+                                                //     swal('Oops...', data.message, 'error');
+                                                // }
+                                                // else{
+                                                //     triggerBeginChat(chatQuestionCode);
+                                                // }
+                                                // if(data.status != "error"){
+                                                    // $('#submit'+chatQuestionCode).off('click');
+                                                    // setTimeout(function(){
+                                                    //     triggerBeginChat(globalChatCode,1,response);
+                                                    // },300);
+                                                    
+                                                // }
+                                            }
+                                        }).done(function(response){
+                                            // console.log("Done");
+                                            // console.log("global: "+globalChatCode);
+                                            // console.log(chatQuestionCode);
+                                            // $('#inputFile'+chatQuestionCode).prop('disabled',true);
+                                            setTimeout(function(){
+                                                triggerBeginChat(globalChatCode,1,response);
+                                            },300);
+                                            $('#inputFile'+chatQuestionCode).prop('disabled',true);
+                                        });
+                                        $(this).off('click');
+                                    }
+                                    $(this).css("background-color","#dedede");
+                                    $(this).hover(function() {
+                                        $(this).css("border-color","#dedede").css("cursor","default");
+                                    });
+                                    $(this).siblings().fadeOut("fast", function() {
+                                        $(this).remove();
+                                    });
+                                    
+                                    
+                                });
+                            }
+                        }
+                    }
+                }
+              });
+        }
+    })
+</script>
+{% endblock %}

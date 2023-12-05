@@ -1,0 +1,26 @@
+{% load static %}
+<div class="row" data-aos="fade-up">
+	<table class="table" id="clusterTable">
+		<thead>
+			<tr>
+				<th>Algorithm</th>
+				<th>Visualisation</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for index, row in result.iterrows %}
+			<tr>
+				<td>{{ row.Algorithm }}</td>
+				<td>{{ row.Visualisation }}</td>
+				<td>{{ row.Action }}</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+		$('#clusterTable').removeClass('dataframe').removeAttr('border').find('thead tr').css('text-align','').css('font-size','');
+	})
+</script>

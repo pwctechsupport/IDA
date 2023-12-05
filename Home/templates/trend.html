@@ -1,0 +1,26 @@
+{% load static %}
+<div class="row" data-aos="fade-up">
+	<div class="row" data-aos="fade-up">
+		<table border="1" class="dataframe table" id="trendTable">
+			<thead>
+				<tr style="text-align: right;">
+					<th>Algorithm</th>
+					<th>Visualisation</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for index, row in result.iterrows %}
+				<tr>
+					<td>{{ row.Algorithm }}</td>
+					<td>{{ row.Visualisation }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+		$('#trendTable').removeClass('dataframe').removeAttr('border').find('thead tr').css('text-align','').css('font-size','');
+	})
+</script>
