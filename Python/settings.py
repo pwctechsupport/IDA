@@ -30,7 +30,7 @@ SECRET_KEY = 'django-insecure-2rm615fe=*#1ji*5e$fd$b@cpzmdjtzx-g4fsy(n(^=y7u_mii
 DEBUG = False
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost','https://ida-three.vercel.app', 'ida-pwctechsupports-projects.vercel.app','ida-git-main-pwctechsupports-projects.vercel.app'
-                 ,'ida-48ia4vdb9-pwctechsupports-projects.vercel.app']
+                 ,'ida-48ia4vdb9-pwctechsupports-projects.vercel.app','.vercel.app']
 
 
 # Application definition
@@ -80,7 +80,8 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'Python.wsgi.application'
+# WSGI_APPLICATION = 'Python.wsgi.application'
+WSGI_APPLICATION = 'vercel_app.wsgi.app'
 
 
 # Database
