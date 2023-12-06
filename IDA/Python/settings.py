@@ -80,7 +80,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'Python.wsgi.application'
-# WSGI_APPLICATION = 'vercel_app.wsgi.app'
 
 
 # Database
