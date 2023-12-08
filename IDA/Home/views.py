@@ -96,14 +96,14 @@ def doLogin(request):
 	json_loads=json.loads(request.body.decode('utf-8'))
 	username = json_loads['username']
 	password = json_loads['password']
-
+	print('user pass  ',username, password)
 	# check login attempt
 	attempt = LoginAttempt.objects.filter(username=username).first()
-	
+	print('attemp: ',attempt)
 	if (attempt != None and attempt.lastattempt + timedelta(minutes=5) <= now()):
 		attempt.delete()
 		attempt = None
-		
+		print ('attemp 2 ', attempt)
 	if (attempt != None and attempt.count >= 5 and attempt.lastattempt + timedelta(minutes=5) > now()):
 		return JsonResponse({"username":"", "message":"attempt"})	
 
@@ -115,6 +115,7 @@ def doLogin(request):
 	encoded = base64.b64encode(ciphertext)
 	
 	data = list(Userlogin.objects.filter(username=username).values('username','password'))
+	print('data: ',data)
 	message=""
 	if(len(data)>0):
 		_, nonce, tag, hash = data[0]['password'].split('$',3)
@@ -137,7 +138,7 @@ def doLogin(request):
 			request.session.SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 			request.session['firstname'] = username
 			request.session['name'] = username
-
+			print('request',request)
 			# remove login attempt
 			LoginAttempt.objects.filter(username=username).delete()
 
@@ -147,6 +148,7 @@ def doLogin(request):
 
 	if (attempt == None):
 		attempt = LoginAttempt(username=username, count=0, lastattempt=now())
+		print('final attemp: ', attempt)
 	
 	attempt.count = attempt.count + 1
 	attempt.lastattempt = now()
