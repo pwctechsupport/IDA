@@ -99,11 +99,10 @@ def doLogin(request):
 	print('user pass  ',username, password)
 	# check login attempt
 	attempt = LoginAttempt.objects.filter(username=username).first()
-	print('attemp: ',attempt)
+	print('attempt: ',attempt)
 	if (attempt != None and attempt.lastattempt + timedelta(minutes=5) <= now()):
 		attempt.delete()
 		attempt = None
-		print ('attemp 2 ', attempt)
 	if (attempt != None and attempt.count >= 5 and attempt.lastattempt + timedelta(minutes=5) > now()):
 		return JsonResponse({"username":"", "message":"attempt"})	
 
@@ -111,9 +110,9 @@ def doLogin(request):
 	key = "this is a key123this is a key123"
 	cipher = AES.new(key.encode('utf8'),AES.MODE_GCM) #AES.MODE_GCM)
 	ciphertext, tag = cipher.encrypt_and_digest(bytes(password ,'utf8'))
- 	
+
 	encoded = base64.b64encode(ciphertext)
-	
+	print(username, password)
 	data = list(Userlogin.objects.filter(username=username).values('username','password'))
 	print('data: ',data)
 	message=""
@@ -148,8 +147,7 @@ def doLogin(request):
 
 	if (attempt == None):
 		attempt = LoginAttempt(username=username, count=0, lastattempt=now())
-		print('final attemp: ', attempt)
-	
+		
 	attempt.count = attempt.count + 1
 	attempt.lastattempt = now()
 	attempt.save()
