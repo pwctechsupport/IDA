@@ -106,7 +106,7 @@ WSGI_APPLICATION = 'Python.wsgi.application'
 DATABASES = {
    'default': {
        'ENGINE': 'django.db.backends.postgresql',
-       'NAME': 'IDA',
+       'NAME': 'postgres',
        'USER': 'postgres',
        'PASSWORD': 'postgres_Jakarta1!',
        'HOST': 'db.qyrewmhpddvdvyqfhawg.supabase.co',
