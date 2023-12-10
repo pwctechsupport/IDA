@@ -24,7 +24,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-2rm615fe=*#1ji*5e$fd$b@cpzmdjtzx-g4fsy(n(^=y7u_mii'
+# SECRET_KEY = 'django-insecure-2rm615fe=*#1ji*5e$fd$b@cpzmdjtzx-g4fsy(n(^=y7u_mii'
+SECRET_KEY = 'e6924f31c7232e2d7b05a48a1b8c5d63d97712be47c65b3d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -52,6 +53,7 @@ RATELIMIT_USE_CACHE = 'default'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -59,7 +61,6 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'Python.custom_middleware.DisableClientSideCachingMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'Python.urls'
@@ -105,7 +106,7 @@ WSGI_APPLICATION = 'Python.wsgi.application'
 DATABASES = {
    'default': {
        'ENGINE': 'django.db.backends.postgresql',
-       'NAME': 'postgres',
+       'NAME': 'IDA',
        'USER': 'postgres',
        'PASSWORD': 'postgres_Jakarta1!',
        'HOST': 'db.qyrewmhpddvdvyqfhawg.supabase.co',
