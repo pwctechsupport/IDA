@@ -105,27 +105,27 @@ WSGI_APPLICATION = 'Python.wsgi.application'
 #     }
 # }
 # Supabase Postgre DB
-# DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.postgresql',
-#        'NAME': 'postgres',
-#        'USER': 'postgres',
-#        'PASSWORD': 'postgres_Jakarta1!',
-#        'HOST': 'db.qyrewmhpddvdvyqfhawg.supabase.co',
-#        'PORT': '5432',
-#    }
-# }
-
 DATABASES = {
    'default': {
        'ENGINE': 'django.db.backends.postgresql',
-       'NAME': 'IDA',
+       'NAME': 'postgres',
        'USER': 'postgres',
-       'PASSWORD': 'postgres',
-       'HOST': 'localhost',
+       'PASSWORD': 'postgres_Jakarta1!',
+       'HOST': 'db.qyrewmhpddvdvyqfhawg.supabase.co',
        'PORT': '5432',
    }
 }
+
+# DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': 'IDA',
+#        'USER': 'postgres',
+#        'PASSWORD': 'postgres',
+#        'HOST': 'localhost',
+#        'PORT': '5432',
+#    }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
