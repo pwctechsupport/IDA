@@ -20,7 +20,7 @@ from django.views.static import serve
 from Python.settings import MEDIA_ROOT, STATICFILES_DIRS
 
 urlpatterns = [
-    path('', lambda req: redirect('Welcome/')),
+    path('', lambda req: redirect('Home/')),
     path('admin/', admin.site.urls),
     path('Welcome/', include('Welcome.urls')),
     path('Home/', include('Home.urls')),
