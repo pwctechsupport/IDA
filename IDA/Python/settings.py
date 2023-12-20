@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'Welcome',
     'Home',
     'Explore',
     'Contact'
@@ -103,13 +104,25 @@ WSGI_APPLICATION = 'Python.wsgi.application'
 #         }
 #     }
 # }
+# Supabase Postgre DB
+# DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.postgresql',
+#        'NAME': 'postgres',
+#        'USER': 'postgres',
+#        'PASSWORD': 'postgres_Jakarta1!',
+#        'HOST': 'db.qyrewmhpddvdvyqfhawg.supabase.co',
+#        'PORT': '5432',
+#    }
+# }
+
 DATABASES = {
    'default': {
        'ENGINE': 'django.db.backends.postgresql',
-       'NAME': 'postgres',
+       'NAME': 'IDA',
        'USER': 'postgres',
-       'PASSWORD': 'postgres_Jakarta1!',
-       'HOST': 'db.qyrewmhpddvdvyqfhawg.supabase.co',
+       'PASSWORD': 'postgres',
+       'HOST': 'localhost',
        'PORT': '5432',
    }
 }
@@ -168,7 +181,6 @@ MEDIA_ROOT = os.path.join (BASE_DIR,'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedStaticFilesStorage'
-
 # SECURE_SSL_REDIRECT         = True
 # SESSION_COOKIE_HTTPONLY     = True
 # SESSION_COOKIE_SECURE       = True

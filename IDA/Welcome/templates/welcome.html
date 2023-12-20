@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-        <title>PwC Intelligent Data Assistant</title>
+        <title>Welcome</title>
         <meta content="" name="description">
         <meta content="" name="keywords">
 
@@ -45,7 +45,7 @@
         <link rel="stylesheet" href="{% static 'CSS/site.css'%}">
         
     </head>
-    <body style="background-image: url('{% static 'images/Intranet_Pattern_1920x1080_V1_Solid.png'%}');background-repeat: no-repeat;background-size: cover; height: 100vh">
+    <body style="background-repeat: no-repeat;background-size: cover; height: 100vh">
         {% comment %} <div class="container">
             <div class="card shadow col-sm-2" style="border-radius: 10px;margin: 0;position: absolute;top: 50%;left: 50%;-ms-transform: translate(-50%, -50%);transform: translate(-50%, -50%);">
                 <div style="padding: 20px;text-align: center;">
@@ -66,11 +66,10 @@
                 </div>
             </div>
         </div> {% endcomment %}
-	    <img src="{% static 'images/PwC_Outline_Logo_Black_RGB.png'%}" alt="" style="left: 50px; width: 150px; position: absolute">
         <div style="width: 600px; display: flex; align-items: center; height: 100vh; background: #f9b600">
             <div style="width: 350px; height: 360px; border: none; margin-left: 125px">
                 <div class="card-body" style="padding: 30px; padding-top: 50px;">
-                    <h4 style="font-family: Georgia">Intelligent Data Assistant</h4>
+                    <h4 style="font-family: Georgia">Login to Your Account</h4>
                     <div id= loginform method="post" role="form" class="php-email-form mt-4" style="display: flex; flex-direction: column; align-items: center;">
                         {% csrf_token %}
                         <div class="row" style="width: 100%">
@@ -92,40 +91,9 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="ToSModal" tabindex="-1" role="dialog" aria-labelledby="ToSModalLabel" aria-hidden="true">
-            <div class="modal-dialog" style="max-width: 80%; max-height: 80%;">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title" id="ToSModalLabel">Intelligent Data Assistant 1.0.0 License Agreement</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    </div>
-                    <div class="modal-body">
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-Action" id="accepttos" style="background-color: #E0301E; broder-color: #E0301E" >Accept</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </body>
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        $(".navbar ul li a").removeClass();
-        $("#navContact").addClass('active');
-        $("#titlePage").text("The rise of AI");
-        $("#subTitlePage").text('Are you ready for the next game changer?');
-        document.title = 'PwC Intelligent Data Assistant Contact Us';
-        $.ajax({
-            type: "GET",
-            url: "/Home/TermOfService/",
-            success: function (data) {
-                $('#ToSModal').find('.modal-body').empty();
-                $('#ToSModal').find('.modal-body').html(data);
-            }
-        });
-    });
 
     $("#Password").keyup(function(event) {
         if (event.keyCode === 13) {
@@ -136,7 +104,7 @@
     function FirstLogin(){
         $.ajax({
             type: "POST",
-            url: "/Home/doLogin/",
+            url: "/Welcome/welcomeLogin/",
             dataType: "json",
             contentType: "application/json; charset=utf-8",
             headers: {'X-CSRFToken': '{{ csrf_token }}'},
@@ -146,10 +114,8 @@
             }),
             success: function (data) {
                 if(data.message=="success"){
-                    $('#ToSModal').modal('show');
-                    $('#accepttos').click(function(){
-                        window.location.href = "/Explore/chat/";
-                    }); 
+                    console.log("Success");
+                    window.location.href = "/Home";
                 } else if (data.message=="attempt") {
                     swal({
                         title: "", 

@@ -60,16 +60,27 @@ def constructor(request):
 		username = request.session['name']
 	return username
 
+def welcomeconstructor(request):
+	welcome = ""
+	# request.session['name'] = "userhero"
+	if 'welcomename' in request.session:
+		welcome = request.session['welcomename']
+	return welcome
+
 def chat(request, *args, **kwargs):
 	firstname = firstconstructor(request);
 	username = constructor(request);
 	context = {"firstname":firstname}
-
-	if not(username==""):
-		context = {"username":username}
-		return render(request,'chat.html',context)
+	welcome = welcomeconstructor(request);
+	
+	if(welcome==""):
+		return render(request,'welcome.html',context)
 	else:
-		return render(request,'home.html',context)
+		if not(username==""):
+			context = {"username":username}
+			return render(request,'chat.html',context)
+		else:
+			return render(request,'home.html',context)
 
 
 @csrf_protect
@@ -802,4 +813,3 @@ def upload_file(request):
 	return render(request,'',context)
 	# else:
 		# return JsonResponse (context)
-

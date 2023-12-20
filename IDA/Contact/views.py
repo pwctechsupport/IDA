@@ -30,14 +30,25 @@ def constructor(request):
 		username = request.session['name']
 	return username
 
+def welcomeconstructor(request):
+	welcome = ""
+	# request.session['name'] = "userhero"
+	if 'welcomename' in request.session:
+		welcome = request.session['welcomename']
+	return welcome
+
 def contact(request, *args, **kwargs):
 	firstname = firstconstructor(request);
 	username = constructor(request);
 	context = {"firstname":firstname}
+	welcome = welcomeconstructor(request);
 
-	if not(username==""):
-		context = {"username":username}
-	return render(request,'contact.html',context)
+	if(welcome==""):
+		return render(request,'welcome.html',context)
+	else:
+		if not(username==""):
+			context = {"username":username}
+		return render(request,'contact.html',context)
 
 
 @csrf_protect

@@ -7,7 +7,7 @@ from django.shortcuts import redirect
 from django.utils.timezone import now
 from django.db import connection
 from django import forms
-from .models import AuthUser, Userlogin, UserFirstLogin, LoginAttempt
+from .models import Userlogin, LoginAttempt
 from datetime import datetime, timedelta
 import json
 import base64
@@ -34,11 +34,22 @@ def constructor(request):
 		username = request.session['name']
 	return username
 
+def welcomeconstructor(request):
+	welcome = ""
+	# request.session['name'] = "userhero"
+	if 'welcomename' in request.session:
+		welcome = request.session['welcomename']
+	return welcome
+
 #temporary, delete if it officially deployed
 def FirstLogin(request, *args, **kwargs):
 	username = constructor(request);
+	welcome = welcomeconstructor(request);
 	context = {"username":username}
-	return render(request,'FirstLogin.html',context)
+	if(welcome==""):
+		return render(request,'welcome.html',context)
+	else:
+		return render(request,'FirstLogin.html',context)
 
 def TrialEnd(request):
 	# with connection.cursor() as cursor:
@@ -49,72 +60,30 @@ def TrialEnd(request):
 	# return JsonResponse({"trialend": True})
 	return JsonResponse({"trialend": False})
 
-#temporary, delete if it officially deployed
-@csrf_protect
-def DoFirstLogin(request):
-	json_loads=json.loads(request.body.decode('utf-8'))
-	username = json_loads['Username']
-	password = json_loads['Password']
-
-	encryptPassword = password.encode("utf-8")
-
-	encoded = base64.b64encode(encryptPassword)
-
-	data = list(UserFirstLogin.objects.filter(username=username,password=encoded).values('username','password'))
-	print(data)
-	message=""
-	if(len(data)>0):
-		t = UserFirstLogin.objects.get(username=username,password=encoded)
-		t.lastlogin = datetime.today().strftime('%Y-%m-%d %H:%M:%S')  # change field
-		t.save() # this will update only
-		request.session['firstname'] = username
-		# request.session.set_expiry(30000)
-		request.session.SESSION_EXPIRE_AT_BROWSER_CLOSE = True
-		message="success"		
-		context = {"username":username, "message":message}
-	else:
-		message="failed"
-		context = { "username":"", "message":message}
-	return JsonResponse(context)
-
-def login(request, *args, **kwargs):
-	try:
-		with connection.cursor() as cursor:
-			cursor.execute("SELECT TrialEnd FROM TrialTable")
-			row = cursor.fetchone()
-			if row[0] <= now() :
-				username = constructor(request)
-				context = {"username":username}
-				return render(request,'login.html',context)
-	except:
-		print('a')
-	return render(request,'home.html',context)
-
 @csrf_protect
 @ratelimit(key='ip', rate='5/m', method='POST', block=True)
 def doLogin(request):
 	json_loads=json.loads(request.body.decode('utf-8'))
 	username = json_loads['username']
 	password = json_loads['password']
-	print('user pass  ',username, password)
+	welcome = welcomeconstructor(request);
 	# check login attempt
+	print(username, password)
 	attempt = LoginAttempt.objects.filter(username=username).first()
-	print('attempt: ',attempt)
 	if (attempt != None and attempt.lastattempt + timedelta(minutes=5) <= now()):
 		attempt.delete()
 		attempt = None
 	if (attempt != None and attempt.count >= 5 and attempt.lastattempt + timedelta(minutes=5) > now()):
 		return JsonResponse({"username":"", "message":"attempt"})	
 
+	print(attempt)
 	#encryptPassword = password.encode("utf-8")
 	key = "this is a key123this is a key123"
 	cipher = AES.new(key.encode('utf8'),AES.MODE_GCM) #AES.MODE_GCM)
 	ciphertext, tag = cipher.encrypt_and_digest(bytes(password ,'utf8'))
 
 	encoded = base64.b64encode(ciphertext)
-	print(username, password)
 	data = list(Userlogin.objects.filter(username=username).values('username','password'))
-	print('data: ',data)
 	message=""
 	if(len(data)>0):
 		_, nonce, tag, hash = data[0]['password'].split('$',3)
@@ -137,10 +106,9 @@ def doLogin(request):
 			request.session.SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 			request.session['firstname'] = username
 			request.session['name'] = username
-			print('request',request)
 			# remove login attempt
 			LoginAttempt.objects.filter(username=username).delete()
-
+			
 			return JsonResponse({"username":username, "message":"success"})
 	
 	# login failed, create login attempt
@@ -154,26 +122,21 @@ def doLogin(request):
 
 	return JsonResponse({ "username":"", "message": "failed"})
 
-# def changepassword(request, *args, **kwargs): #fak: coba bikin function changepassword
-# 	username = constructor(request);
-# 	print(username)
-# 	context = {"username":username}
-# 	print(context)
-# 	return render(request,'changepassword.html',context)
 
 def changepassword(request, *args, **kwargs): #fak: coba bikin function changepassword
 	firstname = firstconstructor(request);
 	username = constructor(request);
+	welcome = welcomeconstructor(request);
 	context = {"firstname":firstname}
 
-	# if(firstname==""):
-	# 	return render(request,'FirstLogin.html',context)
-	# else:
-	if not(username==""):
-		context = {"username":username}
-		return render(request,'changepassword.html',context)
+	if(welcome==""):
+		return render(request,'welcome.html')
 	else:
-		return render(request,'home.html',context)
+		if not(username==""):
+			context = {"username":username}
+			return render(request,'changepassword.html',context)
+		else:
+			return render(request,'home.html',context)
 	
 @csrf_protect
 def doChangePassword(request):
@@ -182,6 +145,7 @@ def doChangePassword(request):
 
 	json_loads=json.loads(request.body.decode('utf-8'))
 	password = json_loads['currentpassword']
+	welcome = welcomeconstructor(request);
 	# password = request.POST.get('currentpassword', '') #oke jalan
 
 	# encryptcurrentpassword = password.encode("utf-8")
@@ -228,7 +192,6 @@ def doChangePassword(request):
 				ciphertext = base64.b64encode(ciphertext).decode("utf-8")
 				encodedconfirmpassword = f'AES${nonce}${tag}${ciphertext}'
 
-				#kalo sama yaudah update, updatenya gimana huhuhuhuhuhuhuhuhuhuhuhu
 				Userlogin.objects.filter(username=username).update(password=encodedconfirmpassword)
 				context = {"username":username}
 				message="success"
@@ -250,61 +213,16 @@ def doChangePassword(request):
 		json_response = {"return":message}
 		return JsonResponse(json_response)
 
-
-#temporarily commented until officially deployed
-# def doLogout(request):
-# 	try:
-# 		del request.session['name']
-# 	except KeyError:
-# 		pass
-# 	return render(request,'home.html')
-
-# def home(request, *args, **kwargs):
-# 	username = constructor(request);
-# 	context = {"username":username}
-# 	# if(username==""):
-# 	# 	return render(request,'login.html',context)
-# 	# else:
-# 	return render(request,'home.html',context)
-
-# def chat(request, *args, **kwargs):
-# 	username = constructor(request);
-# 	context = {"username":username}
-# 	if(username==""):
-# 		return render(request,'home.html',context)
-# 	else:
-# 		return render(request,'chat.html',context)
-
-# def contact(request, *args, **kwargs):
-# 	username = constructor(request);
-# 	context = {"username":username}
-# 	# if(username==""):
-# 	# 	return render(request,'login.html',context)
-# 	# else:
-# 	return render(request,'contact.html',context)
-
-# def copyright(request, *args, **kwargs):
-# 	username = constructor(request);
-# 	context = {"username":username}
-# 	# if(username==""):
-# 	# 	return render(request,'login.html',context)
-# 	# else:
-# 	return render(request,'copyright.html',context)
-
-# def TermOfService(request, *args, **kwargs):
-# 	username = constructor(request);
-# 	context = {"username":username}
-# 	return render(request,'TermOfService.html',context)
-
 def doLogout(request):
 	username = constructor(request);
 	firstname = firstconstructor(request);
+	welcome = welcomeconstructor(request);
 	
 	if (username==""):
-		# if (firstname==""):
-		# 	return render(request,'FirstLogin.html')
-		# else:
-		return render(request,'home.html')
+		if(welcome==""):
+			return render(request,'welcome.html')
+		else:
+			return render(request,'home.html')
 	else:
 		del request.session['name']
 		return redirect('Home:home')	
@@ -314,42 +232,44 @@ def home(request, *args, **kwargs):
 	#firstname = "user"
 	username = constructor(request);
 	context = {"firstname":firstname}
+	welcome = welcomeconstructor(request);
 
-	# if(firstname==""):
-	# 	return render(request,'FirstLogin.html',context)
-	# else:
-	if not(username==""):
-		context = {"username":username}
-	return render(request,'home.html',context)
+	if(welcome==""):
+		return render(request,'welcome.html')
+	else:
+		if not(username==""):
+			context = {"username":username}
+		return render(request,'home.html',context)
 
 
 def copyright(request, *args, **kwargs):
 	firstname = firstconstructor(request);
 	username = constructor(request);
 	context = {"firstname":firstname}
+	welcome = welcomeconstructor(request);
 
-	# if(firstname==""):
-	# 	return render(request,'FirstLogin.html',context)
-	# else:
-	if not(username==""):
-		context = {"username":username}
-		return render(request,'copyright.html',context)
+	if(welcome==""):
+		return render(request,'welcome.html')
 	else:
-		return render(request,'home.html',context)
+		if not(username==""):
+			context = {"username":username}
+			return render(request,'copyright.html',context)
+		else:
+			return render(request,'home.html',context)
 
 def TermOfService(request, *args, **kwargs):
 	firstname = firstconstructor(request);
 	username = constructor(request);
 	context = {"firstname":firstname}
+	welcome = welcomeconstructor(request);
 
-	# if(firstname==""):
-	# 	return render(request,'FirstLogin.html',context)
-	# else:
-	if not(username==""):
-		context = {"username":username}
-	return render(request,'TermOfService.html',context)
-	# else:
-	# 	pass
+	if(welcome==""):
+		return render(request,'welcome.html')
+	else:
+		if not(username==""):
+			context = {"username":username}
+		return render(request,'TermOfService.html',context)
+
 	
 @csrf_protect
 def contoh_form_tanpa_file(request):
@@ -358,4 +278,3 @@ def contoh_form_tanpa_file(request):
 	data = received_json["id"] #id ini cuman contoh parameter yg dilempar dr ajax
 	json_response = {"return":data}
 	return JsonResponse(json_response)
-
